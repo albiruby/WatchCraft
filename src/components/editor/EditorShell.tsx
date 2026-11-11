@@ -209,7 +209,7 @@ export function EditorShell() {
               <Badge tone="accent">Data simulasi</Badge>            </div>
           </div>
 
-          <div className="workspace-dots scroll-slim flex min-h-0 flex-1 items-center justify-center overflow-auto p-6">
+          <div className="scroll-slim flex min-h-0 flex-1 items-center justify-center overflow-auto bg-page p-6">
             <Canvas zoom={zoom} showGrid={showGrid} snap={snap} />
           </div>
 

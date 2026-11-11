@@ -119,9 +119,7 @@ export function LayersPanel() {
       </div>
 
       <div className="flex shrink-0 items-center justify-between border-t border-line px-1.5 py-1.5">
-        <span className="mono px-1 text-[9px] uppercase tracking-[0.1em] text-faint">
-          Shift klik
-        </span>
+        <span className="px-1 text-[10px] text-faint">Shift klik</span>
         <div className="flex items-center gap-0.5">
           {(
             [

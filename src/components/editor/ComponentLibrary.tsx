@@ -395,14 +395,12 @@ export function ComponentLibrary() {
     <div>
       <header className="flex h-11 items-center justify-between border-b border-line px-3.5">
         <h2 className="text-[13px] font-medium">Komponen</h2>
-        <span className="mono text-[9px] uppercase tracking-[0.14em] text-faint">
-          Klik untuk tambah
-        </span>
+        <span className="text-[11px] text-faint">Klik untuk tambah</span>
       </header>
 
       {GROUPS.map((group) => (
         <div key={group.title} className="border-b border-line px-2.5 py-3">
-          <h3 className="mono px-1 pb-2 text-[9px] uppercase tracking-[0.16em] text-faint">
+          <h3 className="px-1 pb-2 text-[11px] text-faint">
             {group.title}
           </h3>
           <div className="grid grid-cols-2 gap-1.5">

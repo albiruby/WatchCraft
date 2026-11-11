@@ -13,7 +13,7 @@ export function Section({
 }) {
   return (
     <section className={cn("border-b border-line px-3.5 py-3", className)}>
-      <h3 className="mono text-[9px] uppercase tracking-[0.16em] text-faint">
+      <h3 className="text-[11px] font-medium text-faint">
         {title}
       </h3>
       <div className="mt-2 space-y-0.5">{children}</div>

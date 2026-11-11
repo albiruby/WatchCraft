@@ -519,7 +519,7 @@ export function Canvas({
         </div>
       </div>
 
-      <p className="mono text-[9px] uppercase tracking-[0.18em] text-faint">
+      <p className="text-[11px] text-faint">
         {selectedIds.length > 1
           ? `${selectedIds.length} elemen dipilih`
           : "Preview data simulasi"}

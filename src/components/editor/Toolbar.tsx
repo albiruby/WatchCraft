@@ -111,7 +111,7 @@ export function Toolbar({
       </div>
 
       <div className="flex shrink-0 items-center gap-1.5">
-        <span className="mono mr-1 hidden items-center gap-1.5 text-[9px] uppercase tracking-[0.14em] text-faint lg:flex">
+        <span className="mr-1 hidden items-center gap-1.5 text-[10px] text-faint lg:flex">
           {saved ? (
             <>
               <Check size={12} className="text-ok" />

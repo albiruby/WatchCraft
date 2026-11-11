@@ -77,9 +77,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <span className="flex flex-col leading-none">
               <span className="font-display text-[13px] font-bold tracking-[0.16em]">WATCHCRAFT</span>
-              <span className="mono mt-1 text-[9px] uppercase tracking-[0.18em] text-faint">
-                FR165 studio
-              </span>
+              <span className="mt-1 text-[10px] text-faint">Forerunner 165</span>
             </span>
           </Link>
 

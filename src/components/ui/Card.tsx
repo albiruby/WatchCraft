@@ -25,9 +25,7 @@ export function CardHeader({
       <div className="flex items-baseline gap-2.5">
         <h2 className="text-[13px] font-medium tracking-wide">{title}</h2>
         {meta ? (
-          <span className="mono text-[10px] uppercase tracking-[0.14em] text-faint">
-            {meta}
-          </span>
+          <span className="text-[11px] text-faint">{meta}</span>
         ) : null}
       </div>
       {action}
