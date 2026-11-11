@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 
 import { DeviceFrame } from "@/components/DeviceFrame";
-import { FRAMES, type FrameSpec } from "@/core/frames";
+import { FRAMES } from "@/core/frames";
+import type { DeviceInfo } from "@/core/device-list";
 import { DisplayListSvg } from "@/components/DisplayListSvg";
 import { Badge, Button, Card, CardHeader } from "@/components/ui";
 import type { Design } from "@/core/schema";
@@ -161,14 +162,13 @@ function Switch({  label,
 
 export function SimulatorPanel({
   design,
-  deviceName,
+  device,
 }: {
   design: Design;
-  deviceName?: string;
+  device: DeviceInfo;
 }) {
   const [settings, setSettings] = useState<SimulationSettings>(DEFAULT_SIMULATION);
   const [ready, setReady] = useState(false);
-  const [frameId, setFrameId] = useState<FrameSpec["id"]>("fr165");
 
   useEffect(() => {
     setSettings(loadSettings());
@@ -187,51 +187,50 @@ export function SimulatorPanel({
   const data = buildSimulationData(settings);
   const patch = (next: Partial<SimulationSettings>) =>
     setSettings((current) => ({ ...current, ...next }));
-  const frame = FRAMES[frameId];
-  const scale = frameId === "fr265" ? 0.62 : 0.9;
+  const directFrame = FRAMES[device.id as keyof typeof FRAMES];
+  const bySizeFrame = device.width === 416 ? FRAMES.fr265 : device.width === 390 ? FRAMES.fr165 : null;
+  const frame = directFrame ?? bySizeFrame;
+  const scale = frame?.id === "fr265" ? 0.62 : 0.9;
 
   return (
     <Card className="overflow-hidden">
       <CardHeader
         title="Simulator"
-        meta={deviceName ?? "Forerunner 165"}
+        meta={device.name}
         action={<Badge tone="accent">Data simulasi</Badge>}
       />
 
       <div className="grid gap-6 p-4 lg:grid-cols-[400px_1fr]">
         <div className="mx-auto w-full max-w-[400px]">
-          <div className="mb-2 flex justify-center gap-1">
-            {Object.values(FRAMES).map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setFrameId(item.id)}
-                aria-pressed={frameId === item.id}
-                className={
-                  frameId === item.id
-                    ? "h-6 rounded border border-accent/50 bg-accent/10 px-2 text-[10px] text-ink"
-                    : "h-6 rounded border border-line bg-raised px-2 text-[10px] text-muted hover:text-ink"
-                }
-              >
-                {item.label.replace("Forerunner ", "FR ")}
-              </button>
-            ))}
-          </div>
-          <div
-            style={{ width: frame.width * scale, height: frame.height * scale }}
-            className="mx-auto"
-          >
-            <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
-              <DeviceFrame frame={frame}>
-                <div
-                  className="absolute inset-0"
-                  style={{ filter: settings.sleepMode ? "brightness(0.45)" : undefined }}
-                >
-                  <DisplayListSvg design={design} data={data} label="Preview simulator" />
-                </div>
-              </DeviceFrame>
+          {frame ? (
+            <div
+              style={{ width: frame.width * scale, height: frame.height * scale }}
+              className="mx-auto"
+            >
+              <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
+                <DeviceFrame frame={frame}>
+                  <div
+                    className="absolute inset-0"
+                    style={{ filter: settings.sleepMode ? "brightness(0.45)" : undefined }}
+                  >
+                    <DisplayListSvg design={design} data={data} label="Preview simulator" />
+                  </div>
+                </DeviceFrame>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="mx-auto grid aspect-square w-full max-w-[340px] place-items-center rounded-full border border-line bg-[#0e1013] p-8 text-center">
+              <div>
+                <p className="text-[13px] text-white/85">{device.name}</p>
+                <p className="mono mt-1 text-[11px] text-white/45">
+                  {device.width} x {device.height} {device.display.toUpperCase()}
+                </p>
+                <p className="mt-3 text-[10px] leading-relaxed text-white/35">
+                  Frame visual belum tersedia untuk model ini.
+                </p>
+              </div>
+            </div>
+          )}
           <div className="mt-2 flex items-center justify-between gap-2">
             <span className="text-[11px] text-faint">
               {design.name}

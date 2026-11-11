@@ -121,7 +121,7 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="mt-4 grid gap-4 xl:grid-cols-[1fr_300px]">
-          <SimulatorPanel design={previewDesign} deviceName={device.name} />
+          <SimulatorPanel design={previewDesign} device={device} />
           <Card className="flex flex-col overflow-hidden">
             <CardHeader
               title="Native render"
