@@ -11,8 +11,17 @@ export type DeviceInfo = {
   watchFaceMemory: number;
 };
 
+function fixMojibake(value: string): string {
+  try {
+    const bytes = Uint8Array.from(value, (char) => char.charCodeAt(0) & 0xff);
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    return value;
+  }
+}
+
 function cleanName(value: string): string {
-  return value
+  return fixMojibake(value)
     .replace(/Â®/g, "®")
     .replace(/Â/g, "")
     .replace(/ForerunnerAr/g, "Forerunner")
