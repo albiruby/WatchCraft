@@ -159,7 +159,13 @@ function Switch({  label,
   );
 }
 
-export function SimulatorPanel({ design }: { design: Design }) {
+export function SimulatorPanel({
+  design,
+  deviceName,
+}: {
+  design: Design;
+  deviceName?: string;
+}) {
   const [settings, setSettings] = useState<SimulationSettings>(DEFAULT_SIMULATION);
   const [ready, setReady] = useState(false);
   const [frameId, setFrameId] = useState<FrameSpec["id"]>("fr165");
@@ -188,7 +194,7 @@ export function SimulatorPanel({ design }: { design: Design }) {
     <Card className="overflow-hidden">
       <CardHeader
         title="Simulator"
-        meta="Forerunner 165"
+        meta={deviceName ?? "Forerunner 165"}
         action={<Badge tone="accent">Data simulasi</Badge>}
       />
 

@@ -11,7 +11,7 @@ import { TemplateCard } from "@/components/TemplateCard";
 import { WatchFaceThumbnail } from "@/components/WatchFaceThumbnail";
 import { ArrowLeft, Grid, Plus } from "@/components/icons";
 import { Badge, Button, Card, CardHeader } from "@/components/ui";
-import { FR165 } from "@/core/devices";
+import { DEVICES, DEFAULT_DEVICE_ID, apiVersion, getDevice } from "@/core/device-list";
 import type { Design } from "@/core/schema";
 import { TEMPLATES, createBlankDesign } from "@/core/templates";
 import { createId, listDesigns, saveDesign } from "@/lib/storage";
@@ -20,11 +20,29 @@ export default function DashboardPage() {
   const router = useRouter();
   const [designs, setDesigns] = useState<Design[]>([]);
   const [ready, setReady] = useState(false);
+  const [deviceId, setDeviceId] = useState(DEFAULT_DEVICE_ID);
 
   useEffect(() => {
     setDesigns(listDesigns());
     setReady(true);
+    try {
+      const saved = window.localStorage.getItem("watchcraft:device");
+      if (saved && DEVICES.some((device) => device.id === saved)) setDeviceId(saved);
+    } catch {
+      // Pakai device default.
+    }
   }, []);
+
+  function chooseDevice(id: string) {
+    setDeviceId(id);
+    try {
+      window.localStorage.setItem("watchcraft:device", id);
+    } catch {
+      // Pilihan hanya berlaku untuk sesi ini.
+    }
+  }
+
+  const device = getDevice(deviceId);
 
   function newDesign() {
     const id = createId();
@@ -48,13 +66,25 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-[28px] leading-[1.05] font-semibold tracking-tight sm:text-[34px]">
             Studio{" "}
-            <span className="font-serif font-normal italic">Forerunner 165</span>
+            <span className="font-serif font-normal italic">{device.name}</span>
           </h1>
           <p className="mt-2 max-w-[62ch] text-[14px] leading-relaxed text-muted">
             Watch face dan data field lari, dari kanvas yang sama sampai file .prg.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={deviceId}
+            onChange={(event) => chooseDevice(event.target.value)}
+            aria-label="Pilih model jam"
+            className="h-9 max-w-[220px] rounded-md border border-line bg-panel px-2 text-[12px] text-ink outline-none"
+          >
+            {DEVICES.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name} / {item.width}
+              </option>
+            ))}
+          </select>
           <Button variant="primary" onClick={newDesign}>
             <Plus size={16} />
             Watch face
@@ -68,10 +98,10 @@ export default function DashboardPage() {
 
       <dl className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-y border-line py-2.5">
         {[
-          ["Layar", "390 x 390 AMOLED"],
-          ["API", FR165.api],
-          ["Memori", "128 KB"],
-          ["Warna", "16 bpp"],
+          ["Layar", `${device.width} x ${device.height} ${device.display.toUpperCase()}`],
+          ["API", apiVersion(device)],
+          ["Memori", `${Math.round(device.watchFaceMemory / 1024)} KB`],
+          ["Keluarga", device.family],
         ].map(([label, value]) => (
           <div key={label} className="flex items-baseline gap-2">
             <dt className="text-[11px] text-faint">{label}</dt>
@@ -83,7 +113,7 @@ export default function DashboardPage() {
       <section className="mt-10">
         <div className="max-w-[64ch]">
           <h2 className="text-lg font-medium tracking-tight">
-            Coba di Forerunner 165
+            Coba di {device.name}
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-muted">
             Ubah data simulasi, kanvas langsung ikut. Kartu kanan adalah tangkapan
@@ -91,7 +121,7 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="mt-4 grid gap-4 xl:grid-cols-[1fr_300px]">
-          <SimulatorPanel design={previewDesign} />
+          <SimulatorPanel design={previewDesign} deviceName={device.name} />
           <Card className="flex flex-col overflow-hidden">
             <CardHeader
               title="Native render"
