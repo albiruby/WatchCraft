@@ -98,6 +98,7 @@ Langkah ini belum divalidasi di perangkat fisik. Catat hasilnya di `docs/TECHNIC
 - [Keputusan teknis](docs/DECISIONS.md)
 - [Catatan teknis](docs/TECHNICAL-NOTES.md)
 - [Riset kompetitor](docs/RESEARCH.md)
+- [Katalog device](docs/DEVICE-CATALOG.md)
 
 ## Arah berikutnya
 

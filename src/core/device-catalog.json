@@ -1,0 +1,742 @@
+﻿[
+    {
+        "id":  "fr255s",
+        "name":  "ForerunnerÂ® 255s",
+        "width":  218,
+        "height":  218,
+        "display":  "mip",
+        "family":  "round-218x218",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr255sm",
+        "name":  "ForerunnerÂ® 255s Music",
+        "width":  218,
+        "height":  218,
+        "display":  "mip",
+        "family":  "round-218x218",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7s",
+        "name":  "fÄ“nixÂ® 7S",
+        "width":  240,
+        "height":  240,
+        "display":  "mip",
+        "family":  "round-240x240",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7spro",
+        "name":  "fÄ“nixÂ® 7S Pro",
+        "width":  240,
+        "height":  240,
+        "display":  "mip",
+        "family":  "round-240x240",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7",
+        "name":  "fÄ“nixÂ® 7 / quatixÂ® 7",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7pro",
+        "name":  "fÄ“nixÂ® 7 Pro",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7pronowifi",
+        "name":  "fÄ“nixÂ® 7 Pro - Solar Edition (no Wi-Fi)",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr255",
+        "name":  "ForerunnerÂ® 255",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr255m",
+        "name":  "ForerunnerÂ® 255 Music",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr955",
+        "name":  "ForerunnerÂ® 955 / Solar",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7x",
+        "name":  "fÄ“nixÂ® 7X / tactixÂ® 7 / quatixÂ® 7X Solar / Enduroâ„¢ 2",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7xpro",
+        "name":  "fÄ“nixÂ® 7X Pro",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix7xpronowifi",
+        "name":  "fÄ“nixÂ® 7X Pro - Solar Edition (no Wi-Fi)",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr265s",
+        "name":  "ForerunnerÂ® 265s",
+        "width":  360,
+        "height":  360,
+        "display":  "amoled",
+        "family":  "round-360x360",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "epix2pro42mm",
+        "name":  "epixâ„¢ Pro (Gen 2) 42mm",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr165",
+        "name":  "ForerunnerÂ® 165",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr165m",
+        "name":  "ForerunnerÂ® 165 Music",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "marq2",
+        "name":  "MARQÂ® (Gen 2) Athlete / Adventurer / Captain / Golfer / Carbon Edition / Commander - Carbon Edition",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "marq2aviator",
+        "name":  "MARQÂ® (Gen 2) Aviator",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "vivoactive5",
+        "name":  "vÃ­voactiveÂ® 5",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "venu3s",
+        "name":  "VenuÂ® 3S",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "d2mach1",
+        "name":  "D2â„¢ Mach 1",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "epix2",
+        "name":  "epixâ„¢ (Gen 2) / quatixÂ® 7 Sapphire",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "epix2pro47mm",
+        "name":  "epixâ„¢ Pro (Gen 2) 47mm / quatixÂ® 7 Pro",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr265",
+        "name":  "ForerunnerÂ® 265",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "d2mach2",
+        "name":  "D2â„¢ Mach 2",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "epix2pro51mm",
+        "name":  "epixâ„¢ Pro (Gen 2) 51mm / D2â„¢ Mach 1 Pro / tactixÂ® 7 â€“ AMOLED Edition",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr965",
+        "name":  "ForerunnerÂ® 965",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "venu3",
+        "name":  "VenuÂ® 3",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 5.2",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "instincte40mm",
+        "name":  "InstinctÂ® E 40mm",
+        "width":  166,
+        "height":  166,
+        "display":  "mip",
+        "family":  "semioctagon-166x166",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  65536
+    },
+    {
+        "id":  "instinct3solar45mm",
+        "name":  "InstinctÂ® 3 Solar / Solar Tactical 45mm / 50mm",
+        "width":  176,
+        "height":  176,
+        "display":  "mip",
+        "family":  "semioctagon-176x176",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  65536
+    },
+    {
+        "id":  "instincte45mm",
+        "name":  "InstinctÂ® E 45mm",
+        "width":  176,
+        "height":  176,
+        "display":  "mip",
+        "family":  "semioctagon-176x176",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  65536
+    },
+    {
+        "id":  "edgemtb",
+        "name":  "EdgeÂ® MTB",
+        "width":  240,
+        "height":  320,
+        "display":  "lcd",
+        "family":  "rectangle-240x320",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "edge540",
+        "name":  "EdgeÂ® 540 / 540 Solar",
+        "width":  246,
+        "height":  322,
+        "display":  "lcd",
+        "family":  "rectangle-246x322",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "edge840",
+        "name":  "EdgeÂ® 840 / 840 Solar",
+        "width":  246,
+        "height":  322,
+        "display":  "lcd",
+        "family":  "rectangle-246x322",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "fenix8solar47mm",
+        "name":  "fÄ“nixÂ® 8 Solar 47mm",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix9prosolar47mm",
+        "name":  "fÄ“nixÂ® 9 Pro Solar 47mm",
+        "width":  260,
+        "height":  260,
+        "display":  "mip",
+        "family":  "round-260x260",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "enduro3",
+        "name":  "Enduroâ„¢ 3",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "enduro4",
+        "name":  "Enduroâ„¢ 4",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix8solar51mm",
+        "name":  "fÄ“nixÂ® 8 Solar 51mm / tactixÂ® 8 Solar 51mm",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix9prosolar51mm",
+        "name":  "fÄ“nixÂ® 9 Pro Solar 51mm",
+        "width":  280,
+        "height":  280,
+        "display":  "mip",
+        "family":  "round-280x280",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "edge1040",
+        "name":  "EdgeÂ® 1040 / 1040 Solar",
+        "width":  282,
+        "height":  470,
+        "display":  "lcd",
+        "family":  "rectangle-282x470",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "edgeexplore3",
+        "name":  "EdgeÂ® Explore 3",
+        "width":  360,
+        "height":  640,
+        "display":  "lcd",
+        "family":  "rectangle-360x640",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "edgeexplore3plus",
+        "name":  "EdgeÂ® Explore 3 Plus",
+        "width":  360,
+        "height":  640,
+        "display":  "lcd",
+        "family":  "rectangle-360x640",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "fr170",
+        "name":  "ForerunnerÂ® 170",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr170m",
+        "name":  "ForerunnerÂ® 170 Music",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr57042mm",
+        "name":  "ForerunnerÂ® 570 42mm",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr70",
+        "name":  "ForerunnerÂ® 70",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "instinct3amoled45mm",
+        "name":  "InstinctÂ® 3 AMOLED 45mm",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "instinctcrossoveramoled",
+        "name":  "InstinctÂ® Crossover AMOLED",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "vivoactive6",
+        "name":  "vÃ­voactiveÂ® 6",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "venu441mm",
+        "name":  "VenuÂ® 4 41mm",
+        "width":  390,
+        "height":  390,
+        "display":  "amoled",
+        "family":  "round-390x390",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "approachs7243mm",
+        "name":  "ApproachÂ® S72 43mm",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix843mm",
+        "name":  "fÄ“nixÂ® 8 43mm",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix943mm",
+        "name":  "fÄ“nixÂ® 9 43mm",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix9pro43mm",
+        "name":  "fÄ“nixÂ® 9 Pro 43mm",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenixe",
+        "name":  "fÄ“nixÂ® E",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "instinct3amoled50mm",
+        "name":  "InstinctÂ® 3 AMOLED 50mm",
+        "width":  416,
+        "height":  416,
+        "display":  "amoled",
+        "family":  "round-416x416",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "edge550",
+        "name":  "EdgeÂ® 550",
+        "width":  420,
+        "height":  600,
+        "display":  "lcd",
+        "family":  "rectangle-420x600",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "edge850",
+        "name":  "EdgeÂ® 850",
+        "width":  420,
+        "height":  600,
+        "display":  "lcd",
+        "family":  "rectangle-420x600",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "venux1",
+        "name":  "VenuÂ® X1",
+        "width":  448,
+        "height":  486,
+        "display":  "amoled",
+        "family":  "rectangle-448x486",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "approachs7247mm",
+        "name":  "ApproachÂ® S72 47mm",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "d2mach2pro",
+        "name":  "D2â„¢ Mach 2 Pro",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix847mm",
+        "name":  "fÄ“nixÂ® 8 47mm / 51mm / tactixÂ® 8 47mm / 51mm / quatixÂ® 8 47mm / 51mm",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix8pro47mm",
+        "name":  "fÄ“nixÂ® 8 Pro 47mm / 51mm / MicroLED / quatixÂ® 8 Pro 47mm / 51mm",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix947mm",
+        "name":  "fÄ“nixÂ® 9 47mm / 51mm",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix9pro47mm",
+        "name":  "fÄ“nixÂ® 9 Pro 47mm",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr57047mm",
+        "name":  "ForerunnerÂ® 570 47mm",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fr970",
+        "name":  "ForerunnerÂ® 970",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "marq3",
+        "name":  "MARQÂ® (Gen 3) Athlete / Adventurer / Aviator / Commander / Golfer / Diver",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "venu445mm",
+        "name":  "VenuÂ® 4 45mm / D2â„¢ Air X15",
+        "width":  454,
+        "height":  454,
+        "display":  "amoled",
+        "family":  "round-454x454",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "fenix9pro51mm",
+        "name":  "fÄ“nixÂ® 9 Pro 51mm",
+        "width":  466,
+        "height":  466,
+        "display":  "amoled",
+        "family":  "round-466x466",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  131072
+    },
+    {
+        "id":  "edge1050",
+        "name":  "EdgeÂ® 1050",
+        "width":  480,
+        "height":  800,
+        "display":  "lcd",
+        "family":  "rectangle-480x800",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    },
+    {
+        "id":  "edge1060",
+        "name":  "EdgeÂ® 1060",
+        "width":  480,
+        "height":  800,
+        "display":  "lcd",
+        "family":  "rectangle-480x800",
+        "api":  "API level 6.0",
+        "watchFaceMemory":  0
+    }
+]
