@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { DeviceFrame, FRAME } from "@/components/DeviceFrame";
+import { DeviceFrame } from "@/components/DeviceFrame";
+import { FRAMES, type FrameSpec } from "@/core/frames";
 import { DisplayListSvg } from "@/components/DisplayListSvg";
 import { Badge, Button, Card, CardHeader } from "@/components/ui";
 import type { Design } from "@/core/schema";
@@ -161,6 +162,7 @@ function Switch({  label,
 export function SimulatorPanel({ design }: { design: Design }) {
   const [settings, setSettings] = useState<SimulationSettings>(DEFAULT_SIMULATION);
   const [ready, setReady] = useState(false);
+  const [frameId, setFrameId] = useState<FrameSpec["id"]>("fr165");
 
   useEffect(() => {
     setSettings(loadSettings());
@@ -179,7 +181,8 @@ export function SimulatorPanel({ design }: { design: Design }) {
   const data = buildSimulationData(settings);
   const patch = (next: Partial<SimulationSettings>) =>
     setSettings((current) => ({ ...current, ...next }));
-  const scale = 0.9;
+  const frame = FRAMES[frameId];
+  const scale = frameId === "fr265" ? 0.62 : 0.9;
 
   return (
     <Card className="overflow-hidden">
@@ -191,12 +194,29 @@ export function SimulatorPanel({ design }: { design: Design }) {
 
       <div className="grid gap-6 p-4 lg:grid-cols-[400px_1fr]">
         <div className="mx-auto w-full max-w-[400px]">
+          <div className="mb-2 flex justify-center gap-1">
+            {Object.values(FRAMES).map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setFrameId(item.id)}
+                aria-pressed={frameId === item.id}
+                className={
+                  frameId === item.id
+                    ? "h-6 rounded border border-accent/50 bg-accent/10 px-2 text-[10px] text-ink"
+                    : "h-6 rounded border border-line bg-raised px-2 text-[10px] text-muted hover:text-ink"
+                }
+              >
+                {item.label.replace("Forerunner ", "FR ")}
+              </button>
+            ))}
+          </div>
           <div
-            style={{ width: FRAME.width * scale, height: FRAME.height * scale }}
+            style={{ width: frame.width * scale, height: frame.height * scale }}
             className="mx-auto"
           >
             <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
-              <DeviceFrame>
+              <DeviceFrame frame={frame}>
                 <div
                   className="absolute inset-0"
                   style={{ filter: settings.sleepMode ? "brightness(0.45)" : undefined }}
@@ -207,7 +227,7 @@ export function SimulatorPanel({ design }: { design: Design }) {
             </div>
           </div>
           <div className="mt-2 flex items-center justify-between gap-2">
-            <span className="mono text-[9px] uppercase tracking-[0.16em] text-faint">
+            <span className="text-[11px] text-faint">
               {design.name}
             </span>
             {settings.sleepMode ? <Badge>Sleep mode</Badge> : null}

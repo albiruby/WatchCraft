@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <iq:manifest version="3" xmlns:iq="http://www.garmin.com/xml/connectiq">
   <iq:application
     id="a7c1c9e2-5b64-4c1a-9d0e-3f8b2e6d41c7"
@@ -8,7 +8,7 @@
     launcherIcon="@Drawables.LauncherIcon"
     minApiLevel="5.2.0">
     <iq:products>
-      <iq:product id="fr165"/>
+      <iq:product id="fr165"/><iq:product id="fr265"/><iq:product id="fr965"/><iq:product id="fr57042mm"/><iq:product id="fr57047mm"/><iq:product id="fr970"/><iq:product id="fenix847mm"/><iq:product id="fenix8solar47mm"/><iq:product id="fenix8solar51mm"/><iq:product id="fenixe"/><iq:product id="venu3"/><iq:product id="venu441mm"/><iq:product id="venu445mm"/><iq:product id="vivoactive6"/><iq:product id="enduro3"/>
     </iq:products>
     <iq:permissions/>
     <iq:languages>
@@ -17,3 +17,4 @@
     </iq:languages>
   </iq:application>
 </iq:manifest>
+

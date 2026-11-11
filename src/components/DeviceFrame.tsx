@@ -1,23 +1,26 @@
 import Image from "next/image";
 
-export const FRAME = {
-  width: 440,
-  height: 784,
-  hole: { left: 48, top: 228, size: 344 },
-} as const;
+import { DEFAULT_FRAME, type FrameSpec } from "@/core/frames";
 
-export function DeviceFrame({ children }: { children: React.ReactNode }) {
+export const FRAME = DEFAULT_FRAME;
+
+export function DeviceFrame({
+  children,
+  frame = DEFAULT_FRAME,
+}: {
+  children: React.ReactNode;
+  frame?: FrameSpec;
+}) {
   return (
     <div
       className="relative select-none"
-      style={{ width: FRAME.width, height: FRAME.height }}
+      style={{ width: frame.width, height: frame.height }}
     >
-      {/* Body diambil dari tangkapan layar Connect IQ Simulator, layar sudah dilubangi. */}
       <Image
-        src="/frames/fr165-body.png"
+        src={`/frames/${frame.id}.png`}
         alt=""
-        width={FRAME.width}
-        height={FRAME.height}
+        width={frame.width}
+        height={frame.height}
         draggable={false}
         priority
         className="pointer-events-none absolute inset-0 h-full w-full"
@@ -26,10 +29,10 @@ export function DeviceFrame({ children }: { children: React.ReactNode }) {
       <div
         className="absolute overflow-hidden rounded-full bg-black"
         style={{
-          left: FRAME.hole.left,
-          top: FRAME.hole.top,
-          width: FRAME.hole.size,
-          height: FRAME.hole.size,
+          left: frame.hole.left,
+          top: frame.hole.top,
+          width: frame.hole.size,
+          height: frame.hole.size,
         }}
       >
         {children}
