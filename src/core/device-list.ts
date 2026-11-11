@@ -11,26 +11,43 @@ export type DeviceInfo = {
   watchFaceMemory: number;
 };
 
-function fixMojibake(value: string): string {
-  try {
-    const bytes = Uint8Array.from(value, (char) => char.charCodeAt(0) & 0xff);
-    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
-  } catch {
-    return value;
-  }
-}
+function labelFromId(id: string): string {
+  const families: Array<[RegExp, string]> = [
+    [/^fenix/, "Fenix "],
+    [/^fr/, "Forerunner "],
+    [/^vivoactive/, "Vivoactive "],
+    [/^venu/, "Venu "],
+    [/^epix/, "Epix "],
+    [/^enduro/, "Enduro "],
+    [/^instinct/, "Instinct "],
+    [/^descent/, "Descent "],
+    [/^approach/, "Approach "],
+    [/^marq/, "MARQ "],
+    [/^lily/, "Lily "],
+    [/^edge/, "Edge "],
+    [/^d2/, "D2 "],
+  ];
 
-function cleanName(value: string): string {
-  return fixMojibake(value)
-    .replace(/Â®/g, "®")
-    .replace(/Â/g, "")
-    .replace(/ForerunnerAr/g, "Forerunner")
-    .trim();
+  let out = id;
+  for (const [pattern, prefix] of families) {
+    if (pattern.test(id)) {
+      out = prefix + id.replace(pattern, "");
+      break;
+    }
+  }
+
+  return out
+    .replace(/(\d)([a-z])/g, "$1 $2")
+    .replace(/([a-z])(\d)/g, "$1 $2")
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 export const DEVICES = (catalog as DeviceInfo[]).map((device) => ({
   ...device,
-  name: cleanName(device.name),
+  name: labelFromId(device.id),
 }));
 
 export const DEFAULT_DEVICE_ID = "fr165";
