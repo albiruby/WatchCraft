@@ -1,8 +1,20 @@
 # WATCHCRAFT
 
+[![CI](https://github.com/albiruby/WatchCraft/actions/workflows/ci.yml/badge.svg)](https://github.com/albiruby/WatchCraft/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)
+
 Studio watch face berbasis web, dirender native di Garmin Forerunner 165.
 
 Rancang di browser, lihat preview pada device frame 390 x 390 dengan data simulasi, lalu bangun `.prg` dari desain yang sama dan pasang ke jam.
+
+![Dashboard WATCHCRAFT](docs/screenshots/dashboard.png)
+
+## Editor
+
+![Editor WATCHCRAFT](docs/screenshots/editor.png)
+
+Kanvas memakai body jam asli dari Connect IQ Simulator, dengan layar yang dilubangi supaya desain bisa diubah langsung di dalamnya.
 
 ## Status
 
@@ -89,9 +101,10 @@ Langkah ini belum divalidasi di perangkat fisik. Catat hasilnya di `docs/TECHNIC
 
 ## Arah berikutnya
 
+- Renderer native generik yang membaca design JSON, supaya semua template dan metrik sampai ke jam.
 - Sinkronisasi desain tanpa install ulang, setelah spike membuktikan mekanismenya.
-- Open source setelah repo bersih dari kredensial dan dokumentasi build lengkap.
 - Dukungan semua model Garmin lewat profil perangkat, bukan hard-code 390 x 390.
+- AOD, live clock, dan version snapshot.
 
 ## Batasan
 
@@ -99,3 +112,13 @@ Langkah ini belum divalidasi di perangkat fisik. Catat hasilnya di `docs/TECHNIC
 - Preview memakai data simulasi, bukan sensor.
 - Desain disimpan di browser. Export JSON sebagai cadangan.
 - Watch face native saat ini memakai layout template Quiet. Sinkronisasi desain belum dibuktikan.
+
+## Kontribusi
+
+Baca [CONTRIBUTING.md](CONTRIBUTING.md). Semua pull request harus lolos CI: typecheck, lint, test, dan build.
+
+## Lisensi
+
+Kode dirilis dengan [MIT License](LICENSE).
+
+Aset body jam di `public/frames/` berasal dari tangkapan layar Connect IQ Simulator. Aset itu tidak tercakup lisensi MIT dan perlu diganti dengan gambar berlisensi sebelum distribusi ulang.

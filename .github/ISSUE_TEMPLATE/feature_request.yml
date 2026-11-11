@@ -1,0 +1,24 @@
+name: Feature request
+description: Usulkan fitur atau perubahan
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah yang mau diselesaikan
+      description: Jelaskan kebutuhan pengguna, bukan hanya solusinya.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Usulan
+      description: Bagaimana fitur ini sebaiknya bekerja di editor dan di jam.
+    validations:
+      required: true
+  - type: textarea
+    id: native
+    attributes:
+      label: Dampak ke native
+      description: Apakah fitur ini bisa digambar oleh Monkey C? Kalau belum, jelaskan batasannya.
