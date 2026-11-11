@@ -56,6 +56,12 @@ Nilai metrik:
 | distance | `7.42 KM` | `ActivityMonitor`, butuh izin |
 | notifications | `3 MSG` | `Notifications`, butuh izin |
 | weather | `27°C` | `Weather`, butuh koneksi |
+| floors | `12 FLR` | `ActivityMonitor`, butuh izin |
+| activeMinutes | `47 MIN` | `ActivityMonitor`, butuh izin |
+| stress | `28` | `SensorHistory`, butuh izin |
+| bodyBattery | `64` | `SensorHistory`, butuh izin |
+| vo2max | `48` | `UserProfile`, butuh izin |
+| altitude | `142 M` | `SensorHistory`, butuh izin |
 | label | teks bebas | konstanta |
 
 ### Shape

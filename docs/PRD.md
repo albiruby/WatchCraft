@@ -48,6 +48,7 @@ Satu desain, dua renderer. Geometri yang terlihat di browser adalah geometri yan
 | FR16 | Multi-select, align, dan distribute | Selesai |
 | FR17 | Smart guides saat drag | Selesai |
 | FR18 | Command palette dan export PNG | Selesai |
+| FR19 | Marquee, context menu, snap grid, pencarian layer, 12 template, 16 metrik | Selesai |
 
 ## Kebutuhan non-fungsional
 

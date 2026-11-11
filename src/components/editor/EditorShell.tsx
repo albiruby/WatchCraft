@@ -24,6 +24,7 @@ export function EditorShell() {
 
   const [zoom, setZoom] = useState(0.9);
   const [showGrid, setShowGrid] = useState(true);
+  const [snap, setSnap] = useState(1);
   const [saved, setSaved] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -191,12 +192,25 @@ export function EditorShell() {
                 <Grid size={12} />
                 Grid
               </button>
-              <Badge tone="accent">Data simulasi</Badge>
-            </div>
+              <label className="flex items-center gap-1.5 text-[10px] text-muted">
+                Snap
+                <select
+                  value={snap}
+                  onChange={(event) => setSnap(Number(event.target.value))}
+                  aria-label="Snap grid"
+                  className="h-6 rounded border border-line bg-raised px-1 mono text-[10px] text-ink outline-none"
+                >
+                  <option value={0}>Off</option>
+                  <option value={1}>1 px</option>
+                  <option value={5}>5 px</option>
+                  <option value={10}>10 px</option>
+                </select>
+              </label>
+              <Badge tone="accent">Data simulasi</Badge>            </div>
           </div>
 
           <div className="workspace-dots scroll-slim flex min-h-0 flex-1 items-center justify-center overflow-auto p-6">
-            <Canvas zoom={zoom} showGrid={showGrid} />
+            <Canvas zoom={zoom} showGrid={showGrid} snap={snap} />
           </div>
 
           <footer className="flex h-8 shrink-0 items-center justify-between gap-3 border-t border-line px-3">

@@ -8,6 +8,10 @@ export type SimulationSettings = {
   heartRate: number;
   activityTracking: boolean;
   sleepMode: boolean;
+  calories: number;
+  distance: number;
+  notifications: number;
+  weather: number;
 };
 
 export const DEFAULT_SIMULATION: SimulationSettings = {
@@ -18,6 +22,10 @@ export const DEFAULT_SIMULATION: SimulationSettings = {
   heartRate: 62,
   activityTracking: true,
   sleepMode: false,
+  calories: 1480,
+  distance: 7.42,
+  notifications: 3,
+  weather: 27,
 };
 
 const WEEKDAYS: Record<SimulationSettings["language"], string[]> = {
@@ -45,9 +53,15 @@ export function buildSimulationData(settings: SimulationSettings): MetricData {
     battery: clamp(settings.battery, 0, 100),
     steps: settings.activityTracking ? Math.max(0, settings.steps) : 0,
     heartRate: clamp(settings.heartRate, 30, 220),
-    calories: 1480,
-    distance: 7.42,
-    notifications: 3,
-    weather: 27,
+    calories: Math.max(0, settings.calories),
+    distance: Math.max(0, settings.distance),
+    notifications: Math.max(0, settings.notifications),
+    weather: clamp(settings.weather, -40, 60),
+    floors: 12,
+    activeMinutes: 47,
+    stress: 28,
+    bodyBattery: 64,
+    vo2max: 48,
+    altitude: 142,
   };
 }

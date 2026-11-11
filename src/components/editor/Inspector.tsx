@@ -25,6 +25,12 @@ const TEXT_METRICS = [
   { value: "distance", label: "Jarak" },
   { value: "notifications", label: "Notif" },
   { value: "weather", label: "Suhu" },
+  { value: "floors", label: "Lantai" },
+  { value: "activeMinutes", label: "Aktif" },
+  { value: "stress", label: "Stress" },
+  { value: "bodyBattery", label: "Body" },
+  { value: "vo2max", label: "VO2" },
+  { value: "altitude", label: "Altitud" },
   { value: "label", label: "Teks bebas" },
 ] as const;
 

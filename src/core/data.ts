@@ -10,6 +10,12 @@ export type MetricData = {
   distance: number;
   notifications: number;
   weather: number;
+  floors: number;
+  activeMinutes: number;
+  stress: number;
+  bodyBattery: number;
+  vo2max: number;
+  altitude: number;
 };
 
 export const SIMULATED_DATA: MetricData = {
@@ -22,6 +28,12 @@ export const SIMULATED_DATA: MetricData = {
   distance: 7.42,
   notifications: 3,
   weather: 27,
+  floors: 12,
+  activeMinutes: 47,
+  stress: 28,
+  bodyBattery: 64,
+  vo2max: 48,
+  altitude: 142,
 };
 
 export function groupDigits(value: number): string {
@@ -56,6 +68,18 @@ export function metricText(el: TextElement, data: MetricData): string {
       return `${Math.round(data.notifications)} MSG`;
     case "weather":
       return `${Math.round(data.weather)}°C`;
+    case "floors":
+      return `${Math.round(data.floors)} FLR`;
+    case "activeMinutes":
+      return `${Math.round(data.activeMinutes)} MIN`;
+    case "stress":
+      return `${Math.round(data.stress)}`;
+    case "bodyBattery":
+      return `${Math.round(data.bodyBattery)}`;
+    case "vo2max":
+      return `${Math.round(data.vo2max)}`;
+    case "altitude":
+      return `${Math.round(data.altitude)} M`;
     default:
       return "";
   }

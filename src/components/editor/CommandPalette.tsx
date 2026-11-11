@@ -34,6 +34,12 @@ function makeText(
     | "distance"
     | "notifications"
     | "weather"
+    | "floors"
+    | "activeMinutes"
+    | "stress"
+    | "bodyBattery"
+    | "vo2max"
+    | "altitude"
     | "label",
   overrides: Record<string, unknown> = {}
 ): DesignElement {
@@ -97,6 +103,12 @@ export function CommandPalette({ onClose }: { onClose: () => void }) {
     { id: "add-distance", label: "Tambah jarak", hint: "Metrik", run: () => state.add(makeText("distance", { y: 260, size: 18 })) },
     { id: "add-notifications", label: "Tambah notifikasi", hint: "Metrik", run: () => state.add(makeText("notifications", { y: 110, size: 14 })) },
     { id: "add-weather", label: "Tambah suhu", hint: "Metrik", run: () => state.add(makeText("weather", { y: 300, size: 18 })) },
+    { id: "add-floors", label: "Tambah lantai", hint: "Metrik", run: () => state.add(makeText("floors", { y: 280, size: 16 })) },
+    { id: "add-active", label: "Tambah active minutes", hint: "Metrik", run: () => state.add(makeText("activeMinutes", { y: 310, size: 16 })) },
+    { id: "add-stress", label: "Tambah stress", hint: "Metrik", run: () => state.add(makeText("stress", { x: 120, y: 150, size: 24 })) },
+    { id: "add-body", label: "Tambah body battery", hint: "Metrik", run: () => state.add(makeText("bodyBattery", { x: 270, y: 150, size: 24 })) },
+    { id: "add-vo2max", label: "Tambah VO2 max", hint: "Metrik", run: () => state.add(makeText("vo2max", { y: 330, size: 18 })) },
+    { id: "add-altitude", label: "Tambah altitude", hint: "Metrik", run: () => state.add(makeText("altitude", { y: 90, size: 14 })) },
     { id: "add-label", label: "Tambah teks bebas", hint: "Teks", run: () => state.add(makeText("label", { text: "LABEL", size: 11, tracking: 2, color: "#98A2B3" })) },
     { id: "add-rect", label: "Tambah kotak", hint: "Bentuk", run: () => state.add(makeShape("rect")) },
     { id: "add-circle", label: "Tambah lingkaran", hint: "Bentuk", run: () => state.add(makeShape("circle")) },

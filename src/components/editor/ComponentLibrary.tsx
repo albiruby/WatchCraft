@@ -148,6 +148,90 @@ const GROUPS: Array<{ title: string; items: Item[] }> = [
             size: 18,
           }),
       },
+      {
+        key: "floors",
+        label: "Lantai",
+        hint: "Floors climbed",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("floors"),
+            type: "text",
+            x: 195,
+            y: 280,
+            metric: "floors",
+            size: 16,
+          }),
+      },
+      {
+        key: "active",
+        label: "Aktif",
+        hint: "Active minutes",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("active"),
+            type: "text",
+            x: 195,
+            y: 310,
+            metric: "activeMinutes",
+            size: 16,
+          }),
+      },
+      {
+        key: "stress",
+        label: "Stress",
+        hint: "Level stress",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("stress"),
+            type: "text",
+            x: 120,
+            y: 150,
+            metric: "stress",
+            size: 24,
+          }),
+      },
+      {
+        key: "body",
+        label: "Body batt",
+        hint: "Body battery",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("body"),
+            type: "text",
+            x: 270,
+            y: 150,
+            metric: "bodyBattery",
+            size: 24,
+          }),
+      },
+      {
+        key: "vo2max",
+        label: "VO2",
+        hint: "VO2 max",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("vo2max"),
+            type: "text",
+            x: 195,
+            y: 330,
+            metric: "vo2max",
+            size: 18,
+          }),
+      },
+      {
+        key: "altitude",
+        label: "Altitud",
+        hint: "Ketinggian",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("altitude"),
+            type: "text",
+            x: 195,
+            y: 90,
+            metric: "altitude",
+            size: 14,
+          }),
+      },
     ],
   },
   {

@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { ArrowDown, ArrowUp, Copy, Eye, EyeOff, Lock, Trash, Unlock } from "@/components/icons";
 import { elementTitle } from "@/core/schema";
 import { cn } from "@/lib/cn";
@@ -19,6 +21,11 @@ export function LayersPanel() {
 
   const ordered = [...design.elements].reverse();
   const hasSelection = selectedIds.length > 0;
+  const [query, setQuery] = useState("");
+  const needle = query.trim().toLowerCase();
+  const filtered = needle
+    ? ordered.filter((element) => elementTitle(element).toLowerCase().includes(needle))
+    : ordered;
 
   return (
     <div className="flex min-h-[160px] max-h-[46%] shrink-0 flex-col border-b border-line">
@@ -31,11 +38,23 @@ export function LayersPanel() {
         </span>
       </header>
 
+      <div className="shrink-0 border-b border-line px-1.5 py-1.5">
+        <input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Cari layer"
+          aria-label="Cari layer"
+          className="h-7 w-full rounded border border-line bg-raised px-2 text-[11px] text-ink outline-none placeholder:text-faint focus:border-line-strong"
+        />
+      </div>
+
       <div className="scroll-slim flex-1 overflow-y-auto p-1.5">
-        {ordered.length === 0 ? (
-          <p className="px-2 py-3 text-[12px] text-faint">Belum ada elemen.</p>
+        {filtered.length === 0 ? (
+          <p className="px-2 py-3 text-[12px] text-faint">
+            {ordered.length === 0 ? "Belum ada elemen." : "Tidak ada layer yang cocok."}
+          </p>
         ) : (
-          ordered.map((element) => {
+          filtered.map((element) => {
             const selected = selectedIds.includes(element.id);
             const primary = element.id === selectedId;
             return (

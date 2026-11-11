@@ -25,6 +25,12 @@ export const TEXT_METRICS = [
   "distance",
   "notifications",
   "weather",
+  "floors",
+  "activeMinutes",
+  "stress",
+  "bodyBattery",
+  "vo2max",
+  "altitude",
 ] as const;
 
 export const textElementSchema = z.object({
@@ -122,6 +128,12 @@ export function elementTitle(el: DesignElement): string {
       distance: "Distance",
       notifications: "Notifications",
       weather: "Weather",
+      floors: "Floors",
+      activeMinutes: "Active minutes",
+      stress: "Stress",
+      bodyBattery: "Body battery",
+      vo2max: "VO2 max",
+      altitude: "Altitude",
     }[el.metric];
   }
   if (el.type === "arc") {

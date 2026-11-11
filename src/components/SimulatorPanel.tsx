@@ -99,8 +99,32 @@ function Slider({
   );
 }
 
-function Switch({
+function MiniNumber({
   label,
+  value,
+  step = 1,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  step?: number;
+  onChange: (value: number) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="text-[10px] text-faint">{label}</span>
+      <input
+        type="number"
+        step={step}
+        value={value}
+        onChange={(event) => onChange(Number(event.target.value) || 0)}
+        className="mt-1 h-7 w-full rounded border border-line bg-raised px-2 mono text-[11px] text-ink outline-none focus:border-line-strong"
+      />
+    </label>
+  );
+}
+
+function Switch({  label,
   checked,
   onChange,
 }: {
@@ -258,6 +282,34 @@ export function SimulatorPanel({ design }: { design: Design }) {
                   onChange={(value) => patch({ activityTracking: value })}
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="rounded-md border border-line bg-panel p-3 sm:col-span-2">
+            <p className="text-[11px] text-muted">Metrik lain</p>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <MiniNumber
+                label="Kalori"
+                value={settings.calories}
+                step={10}
+                onChange={(value) => patch({ calories: value })}
+              />
+              <MiniNumber
+                label="Jarak (km)"
+                value={settings.distance}
+                step={0.1}
+                onChange={(value) => patch({ distance: value })}
+              />
+              <MiniNumber
+                label="Notifikasi"
+                value={settings.notifications}
+                onChange={(value) => patch({ notifications: value })}
+              />
+              <MiniNumber
+                label="Suhu (C)"
+                value={settings.weather}
+                onChange={(value) => patch({ weather: value })}
+              />
             </div>
           </div>
 

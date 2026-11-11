@@ -39,7 +39,10 @@ Diambil dari WCMF dan EasyFace, disesuaikan dengan batasan Garmin:
 | Command palette | Selesai | Ctrl+K, 29 aksi |
 | Metrik tambahan | Selesai | Kalori, jarak, notifikasi, suhu |
 | Export PNG | Selesai | 780 x 780, dari display list yang sama |
-| Context menu kanvas | Belum | Kandidat berikutnya |
+| Context menu kanvas | Selesai | Duplikat, hapus, urutan, kunci, sembunyikan |
+| Marquee selection | Selesai | Tarik di area kosong |
+| Snap grid | Selesai | Off, 1, 5, 10 px |
+| Pencarian layer | Selesai | Filter nama elemen |
 | AOD preview | Belum | Menunggu renderer native |
 | Live clock | Belum | Preview sekarang statis |
 | Multi-device | Belum | Butuh profil perangkat |

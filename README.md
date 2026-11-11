@@ -10,7 +10,8 @@ Alpha. Yang sudah jalan:
 
 - Dashboard, templates, library, settings
 - Editor: kanvas, drag, snap tengah, smart guides, layer, inspector, undo/redo, grid
-- Multi-select, align, distribute, command palette (Ctrl+K)
+- Multi-select, marquee, align, distribute, context menu, snap 1/5/10 px, pencarian layer
+- Command palette (Ctrl+K), 12 template, 16 metrik
 - Simpan otomatis ke localStorage, import dan export JSON
 - Export SVG dan PNG dari display list yang sama dengan renderer native
 - Build `.prg` untuk fr165 lewat SDK 9.3.0
