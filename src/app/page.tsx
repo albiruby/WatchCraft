@@ -135,6 +135,7 @@ export default function DashboardPage() {
                 alt="Watch face WATCHCRAFT dirender di simulator Connect IQ Forerunner 165"
                 width={440}
                 height={784}
+                loading="eager"
                 style={{ width: "100%", maxWidth: 240, height: "auto" }}
               />
             </div>
