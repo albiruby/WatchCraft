@@ -76,7 +76,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </svg>
             </span>
             <span className="flex flex-col leading-none">
-              <span className="text-[13px] font-semibold tracking-[0.16em]">WATCHCRAFT</span>
+              <span className="font-display text-[13px] font-bold tracking-[0.16em]">WATCHCRAFT</span>
               <span className="mono mt-1 text-[9px] uppercase tracking-[0.18em] text-faint">
                 FR165 studio
               </span>

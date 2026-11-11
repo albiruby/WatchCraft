@@ -43,8 +43,11 @@ export default function DashboardPage() {
           <p className="mono text-[10px] uppercase tracking-[0.2em] text-accent">
             Watch face studio
           </p>
-          <h1 className="mt-3 max-w-[17ch] text-[34px] leading-[1.08] font-semibold tracking-tight sm:text-[42px]">
-            Rancang di browser. Render di jam.
+          <h1 className="mt-3 max-w-[17ch] text-[34px] leading-[1.02] font-semibold tracking-tight sm:text-[42px]">
+            Rancang di browser.
+            <span className="mt-1 block font-serif text-[40px] leading-[0.95] font-normal italic tracking-[-0.01em] sm:text-[50px]">
+              Render di jam.
+            </span>
           </h1>
           <p className="mt-4 max-w-[54ch] text-[15px] leading-relaxed text-muted">
             Editor kanvas 390 x 390 dengan preview data simulasi. Desain yang sama

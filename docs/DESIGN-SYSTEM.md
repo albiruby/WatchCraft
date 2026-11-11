@@ -35,10 +35,13 @@ Nilai teks di kedua tema sudah dipilih agar lolos WCAG AA pada permukaan masing-
 
 | Peran | Font | Alasan |
 | --- | --- | --- |
-| UI | Instrument Sans | Grotesque teknis, tetap terbaca di chrome padat |
-| Angka dan label | IBM Plex Mono | Digit tegas, nol bergaris, bagus untuk koordinat |
+| UI dan body | Inter | Netral, rapat, terbaca di chrome padat |
+| Heading dan judul | Red Hat Display | Geometris, tegas, tetap terasa alat kerja |
+| Aksen display | Instrument Serif italic | Kontras editorial untuk satu baris besar |
 
 Dimuat lewat `next/font`, self-hosted, tanpa request runtime.
+
+Angka teknis memakai Inter dengan `font-variant-numeric: tabular-nums`, bukan font mono terpisah. Kelas `.mono` di kode adalah utility angka tabular, bukan keluarga font lain.
 
 Skala:
 

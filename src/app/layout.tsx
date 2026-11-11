@@ -1,19 +1,27 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { Instrument_Serif, Inter, Red_Hat_Display } from "next/font/google";
 
 import "./globals.css";
 
-const sans = Instrument_Sans({
+const sans = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-instrument-sans",
+  variable: "--font-inter",
 });
 
-const mono = IBM_Plex_Mono({
+const display = Red_Hat_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-ibm-plex-mono",
+  variable: "--font-red-hat-display",
+});
+
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-instrument-serif",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +39,7 @@ export default function RootLayout({
     <html
       lang="id"
       data-theme="dark"
-      className={`${sans.variable} ${mono.variable}`}
+      className={`${sans.variable} ${display.variable} ${serif.variable}`}
       suppressHydrationWarning
     >
       <head>

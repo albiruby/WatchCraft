@@ -3,9 +3,9 @@ import { buildDisplayList, type DisplayCommand } from "./renderer";
 import type { Design } from "./schema";
 
 export const FONT_STACK: Record<string, string> = {
-  sans: "'Instrument Sans', ui-sans-serif, system-ui, sans-serif",
-  mono: "'IBM Plex Mono', ui-monospace, monospace",
-  digits: "'IBM Plex Mono', ui-monospace, monospace",
+  sans: "'Inter', ui-sans-serif, system-ui, sans-serif",
+  mono: "'Red Hat Display', ui-sans-serif, system-ui, sans-serif",
+  digits: "'Red Hat Display', ui-sans-serif, system-ui, sans-serif",
 };
 
 export const FONT_WEIGHT: Record<string, number> = {
