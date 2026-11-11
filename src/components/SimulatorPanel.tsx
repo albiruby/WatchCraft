@@ -188,7 +188,14 @@ export function SimulatorPanel({
   const patch = (next: Partial<SimulationSettings>) =>
     setSettings((current) => ({ ...current, ...next }));
   const directFrame = FRAMES[device.id as keyof typeof FRAMES];
-  const bySizeFrame = device.width === 416 ? FRAMES.fr265 : device.width === 390 ? FRAMES.fr165 : null;
+  const bySizeFrame =
+    device.width === 416
+      ? FRAMES.fr265
+      : device.width === 390
+        ? FRAMES.fr165
+        : device.width === 218
+          ? FRAMES.fr255sm
+          : null;
   const frame = directFrame ?? bySizeFrame;
   const scale = frame?.id === "fr265" ? 0.62 : 0.9;
 
