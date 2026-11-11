@@ -6,6 +6,7 @@ coverage/
 
 # Monkey C build output
 watchface/bin/
+datafield/bin/
 *.prg
 *.iq
 *.debug.xml

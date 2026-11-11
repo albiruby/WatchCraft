@@ -232,6 +232,81 @@ const GROUPS: Array<{ title: string; items: Item[] }> = [
             size: 14,
           }),
       },
+      {
+        key: "pace",
+        label: "Pace",
+        hint: "Menit per km",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("pace"),
+            type: "text",
+            x: 195,
+            y: 175,
+            metric: "pace",
+            size: 44,
+            family: "digits",
+            weight: "bold",
+          }),
+      },
+      {
+        key: "timer",
+        label: "Timer",
+        hint: "Waktu lari",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("timer"),
+            type: "text",
+            x: 195,
+            y: 265,
+            metric: "timer",
+            size: 24,
+          }),
+      },
+      {
+        key: "cadence",
+        label: "Cadence",
+        hint: "Langkah per menit",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("cadence"),
+            type: "text",
+            x: 195,
+            y: 320,
+            metric: "cadence",
+            size: 16,
+            color: "#8A93A3",
+          }),
+      },
+      {
+        key: "speed",
+        label: "Kecepatan",
+        hint: "KM per jam",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("speed"),
+            type: "text",
+            x: 195,
+            y: 120,
+            metric: "speed",
+            size: 16,
+          }),
+      },
+      {
+        key: "lap",
+        label: "Lap",
+        hint: "Lap ke berapa",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("lap"),
+            type: "text",
+            x: 195,
+            y: 90,
+            metric: "lap",
+            size: 12,
+            tracking: 2,
+            color: "#FF7A1A",
+          }),
+      },
     ],
   },
   {

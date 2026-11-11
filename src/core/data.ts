@@ -16,6 +16,11 @@ export type MetricData = {
   bodyBattery: number;
   vo2max: number;
   altitude: number;
+  timer: number;
+  pace: number;
+  speed: number;
+  cadence: number;
+  lap: number;
 };
 
 export const SIMULATED_DATA: MetricData = {
@@ -34,10 +39,32 @@ export const SIMULATED_DATA: MetricData = {
   bodyBattery: 64,
   vo2max: 48,
   altitude: 142,
+  timer: 1845,
+  pace: 5.42,
+  speed: 11.1,
+  cadence: 172,
+  lap: 2,
 };
 
 export function groupDigits(value: number): string {
   return String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function formatClock(totalSeconds: number): string {
+  const safe = Math.max(0, Math.round(totalSeconds));
+  const hours = Math.floor(safe / 3600);
+  const minutes = Math.floor((safe % 3600) / 60);
+  const seconds = safe % 60;
+  const mm = String(minutes).padStart(2, "0");
+  const ss = String(seconds).padStart(2, "0");
+  return hours > 0 ? `${hours}:${mm}:${ss}` : `${minutes}:${ss}`;
+}
+
+export function formatPace(minutesPerKm: number): string {
+  const total = Math.max(0, Math.round(minutesPerKm * 60));
+  const minutes = Math.floor(total / 60);
+  const seconds = total % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 export function metricNumber(el: ArcElement, data: MetricData): number {
@@ -80,6 +107,16 @@ export function metricText(el: TextElement, data: MetricData): string {
       return `${Math.round(data.vo2max)}`;
     case "altitude":
       return `${Math.round(data.altitude)} M`;
+    case "timer":
+      return formatClock(data.timer);
+    case "pace":
+      return `${formatPace(data.pace)} /KM`;
+    case "speed":
+      return `${data.speed.toFixed(1)} KM/H`;
+    case "cadence":
+      return `${Math.round(data.cadence)} SPM`;
+    case "lap":
+      return `LAP ${Math.round(data.lap)}`;
     default:
       return "";
   }

@@ -105,7 +105,9 @@ export function Toolbar({
           onChange={(event) => rename(event.target.value)}
           className="h-8 w-36 min-w-0 truncate rounded border border-transparent bg-transparent px-2 text-[13px] font-medium outline-none transition-colors hover:border-line focus:border-line-strong sm:w-52"
         />
-        <Badge className="hidden md:inline-flex">FR165</Badge>
+        <Badge className="hidden md:inline-flex">
+          {design.kind === "datafield" ? "DATA FIELD" : "FR165"}
+        </Badge>
       </div>
 
       <div className="flex shrink-0 items-center gap-1.5">

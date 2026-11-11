@@ -321,11 +321,41 @@ export function SimulatorPanel({ design }: { design: Design }) {
             />
           </div>
 
+          {design.kind === "datafield" ? (
+            <div className="rounded-md border border-line bg-panel p-3 sm:col-span-2">
+              <p className="text-[11px] text-muted">Run data</p>
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <MiniNumber
+                  label="Pace (min/km)"
+                  value={settings.pace}
+                  step={0.05}
+                  onChange={(value) => patch({ pace: value })}
+                />
+                <MiniNumber
+                  label="Timer (detik)"
+                  value={settings.timer}
+                  step={5}
+                  onChange={(value) => patch({ timer: value })}
+                />
+                <MiniNumber
+                  label="Cadence (spm)"
+                  value={settings.cadence}
+                  onChange={(value) => patch({ cadence: value })}
+                />
+                <MiniNumber
+                  label="Lap"
+                  value={settings.lap}
+                  onChange={(value) => patch({ lap: value })}
+                />
+              </div>
+            </div>
+          ) : null}
+
           <div className="flex items-center justify-between gap-2 sm:col-span-2">
             <p className="text-[10px] leading-relaxed text-faint">
-              Hanya kontrol yang mengubah hasil render. Menu simulator lain seperti
-              sensor, audio, dan BLE tidak ditampilkan karena tidak memengaruhi watch
-              face.
+              {design.kind === "datafield"
+                ? "Data field digambar di area yang disediakan layout aktivitas. Preview ini memakai area penuh 390 x 390."
+                : "Hanya kontrol yang mengubah hasil render. Menu simulator lain seperti sensor, audio, dan BLE tidak ditampilkan karena tidak memengaruhi watch face."}
             </p>
             <Button
               size="sm"

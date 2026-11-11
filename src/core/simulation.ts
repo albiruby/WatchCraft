@@ -12,6 +12,10 @@ export type SimulationSettings = {
   distance: number;
   notifications: number;
   weather: number;
+  pace: number;
+  timer: number;
+  cadence: number;
+  lap: number;
 };
 
 export const DEFAULT_SIMULATION: SimulationSettings = {
@@ -26,6 +30,10 @@ export const DEFAULT_SIMULATION: SimulationSettings = {
   distance: 7.42,
   notifications: 3,
   weather: 27,
+  pace: 5.42,
+  timer: 1845,
+  cadence: 172,
+  lap: 2,
 };
 
 const WEEKDAYS: Record<SimulationSettings["language"], string[]> = {
@@ -63,5 +71,10 @@ export function buildSimulationData(settings: SimulationSettings): MetricData {
     bodyBattery: 64,
     vo2max: 48,
     altitude: 142,
+    timer: Math.max(0, settings.timer),
+    pace: Math.max(0, settings.pace),
+    speed: settings.pace > 0 ? 60 / settings.pace : 0,
+    cadence: Math.max(0, settings.cadence),
+    lap: Math.max(1, settings.lap),
   };
 }

@@ -80,13 +80,10 @@ export default function LibraryPage() {
     <AppShell>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="mono text-[10px] uppercase tracking-[0.2em] text-accent">
-            Library
-          </p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">Desain lo</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Desain tersimpan</h1>
           <p className="mt-2 max-w-[58ch] text-sm leading-relaxed text-muted">
-            Semua desain disimpan di penyimpanan lokal browser. Export JSON untuk
-            memindahkannya ke perangkat lain, atau import file yang sudah ada.
+            Semua desain disimpan di browser ini. Export JSON untuk memindahkannya,
+            atau import file yang sudah ada.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -171,6 +168,7 @@ export default function LibraryPage() {
                       {design.name}
                     </Link>
                     <p className="mono mt-1 text-[10px] uppercase tracking-[0.12em] text-faint">
+                      {design.kind === "datafield" ? "FIELD" : "FR165"} /{" "}
                       {formatDate(design.updatedAt)} / {design.elements.length} elemen
                     </p>
                   </div>

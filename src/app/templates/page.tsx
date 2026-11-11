@@ -5,35 +5,34 @@ import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { TemplateCard } from "@/components/TemplateCard";
 import { Search } from "@/components/icons";
+import { cn } from "@/lib/cn";
 import { TEMPLATES } from "@/core/templates";
 
 export default function TemplatesPage() {
   const [query, setQuery] = useState("");
+  const [kind, setKind] = useState<"all" | "watchface" | "datafield">("all");
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    if (!needle) return TEMPLATES;
-    return TEMPLATES.filter((template) =>
+    const base =
+      kind === "all" ? TEMPLATES : TEMPLATES.filter((template) => template.design.kind === kind);
+    if (!needle) return base;
+    return base.filter((template) =>
       [template.name, template.description, ...template.tags]
         .join(" ")
         .toLowerCase()
         .includes(needle)
     );
-  }, [query]);
+  }, [query, kind]);
 
   return (
     <AppShell>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="mono text-[10px] uppercase tracking-[0.2em] text-accent">
-            Template
-          </p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">
-            Titik awal, bukan hasil akhir
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Template</h1>
           <p className="mt-2 max-w-[58ch] text-sm leading-relaxed text-muted">
-            Setiap template adalah desain sah yang bisa langsung dibuka di editor.
-            Semua propertinya bisa diganti, tidak ada yang terkunci.
+            Ambil satu sebagai titik awal. Semua properti bisa diganti, tidak ada
+            yang terkunci.
           </p>
         </div>
         <label className="flex h-9 w-full items-center gap-2 rounded-md border border-line bg-panel px-3 text-muted focus-within:border-line-strong sm:w-64">
@@ -48,7 +47,32 @@ export default function TemplatesPage() {
         </label>
       </div>
 
-      <p className="mono mt-6 text-[10px] uppercase tracking-[0.16em] text-faint">
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {(
+          [
+            ["all", "Semua"],
+            ["watchface", "Watch face"],
+            ["datafield", "Data field"],
+          ] as const
+        ).map(([value, label]) => (
+          <button
+            key={value}
+            type="button"
+            onClick={() => setKind(value)}
+            aria-pressed={kind === value}
+            className={cn(
+              "h-7 rounded border px-2.5 text-[11px] font-medium transition-colors",
+              kind === value
+                ? "border-accent/50 bg-accent/10 text-ink"
+                : "border-line bg-raised text-muted hover:text-ink"
+            )}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <p className="mt-6 text-[11px] text-faint">
         {filtered.length} dari {TEMPLATES.length} template
       </p>
 

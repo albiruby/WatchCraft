@@ -110,6 +110,16 @@ Forerunner 165 memakai body asli hasil tangkapan layar Connect IQ Simulator, buk
 5. Tema terang wajib diuji di semua halaman, termasuk editor.
 6. Informasi status tidak hanya dibawa warna, selalu ada teks atau ikon.
 
+## Keputusan anti-slop
+
+- Dashboard adalah meja kerja, bukan landing page. Tidak ada hero pemasaran, tidak ada angka dekoratif.
+- Tidak ada eyebrow uppercase di judul halaman. Label uppercase hanya dipakai untuk status dan field teknis di editor.
+- CTA menyebut tindakan: Watch face, Data field, Buka editor.
+- Satu aksen oranye. Tanpa gradient dekoratif, glow, atau glassmorphism.
+- Instrument Serif hanya satu aksen di judul studio, bukan dicampur ke headline lain.
+- Grid template seragam karena itu katalog, bukan feature grid pemasaran.
+- Latar titik di editor punya alasan: itu area kerja kanvas, bukan tekstur dekoratif.
+
 ## Larangan
 
 - Em dash di teks UI.

@@ -40,6 +40,11 @@ function makeText(
     | "bodyBattery"
     | "vo2max"
     | "altitude"
+    | "timer"
+    | "pace"
+    | "speed"
+    | "cadence"
+    | "lap"
     | "label",
   overrides: Record<string, unknown> = {}
 ): DesignElement {
@@ -109,6 +114,11 @@ export function CommandPalette({ onClose }: { onClose: () => void }) {
     { id: "add-body", label: "Tambah body battery", hint: "Metrik", run: () => state.add(makeText("bodyBattery", { x: 270, y: 150, size: 24 })) },
     { id: "add-vo2max", label: "Tambah VO2 max", hint: "Metrik", run: () => state.add(makeText("vo2max", { y: 330, size: 18 })) },
     { id: "add-altitude", label: "Tambah altitude", hint: "Metrik", run: () => state.add(makeText("altitude", { y: 90, size: 14 })) },
+    { id: "add-pace", label: "Tambah pace", hint: "Lari", run: () => state.add(makeText("pace", { y: 175, size: 44, family: "digits", weight: "bold" })) },
+    { id: "add-timer", label: "Tambah timer", hint: "Lari", run: () => state.add(makeText("timer", { y: 265, size: 24 })) },
+    { id: "add-cadence", label: "Tambah cadence", hint: "Lari", run: () => state.add(makeText("cadence", { y: 320, size: 16, color: "#8A93A3" })) },
+    { id: "add-speed", label: "Tambah kecepatan", hint: "Lari", run: () => state.add(makeText("speed", { y: 120, size: 16 })) },
+    { id: "add-lap", label: "Tambah lap", hint: "Lari", run: () => state.add(makeText("lap", { y: 90, size: 12, tracking: 2, color: "#FF7A1A" })) },
     { id: "add-label", label: "Tambah teks bebas", hint: "Teks", run: () => state.add(makeText("label", { text: "LABEL", size: 11, tracking: 2, color: "#98A2B3" })) },
     { id: "add-rect", label: "Tambah kotak", hint: "Bentuk", run: () => state.add(makeShape("rect")) },
     { id: "add-circle", label: "Tambah lingkaran", hint: "Bentuk", run: () => state.add(makeShape("circle")) },

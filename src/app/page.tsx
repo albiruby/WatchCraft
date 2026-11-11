@@ -9,7 +9,7 @@ import { AppShell } from "@/components/AppShell";
 import { SimulatorPanel } from "@/components/SimulatorPanel";
 import { TemplateCard } from "@/components/TemplateCard";
 import { WatchFaceThumbnail } from "@/components/WatchFaceThumbnail";
-import { ArrowLeft, Grid, Plus, Watch } from "@/components/icons";
+import { ArrowLeft, Grid, Plus } from "@/components/icons";
 import { Badge, Button, Card, CardHeader } from "@/components/ui";
 import { FR165 } from "@/core/devices";
 import type { Design } from "@/core/schema";
@@ -32,92 +32,57 @@ export default function DashboardPage() {
     router.push(`/studio/${id}`);
   }
 
+  function newDataField() {
+    const id = createId();
+    saveDesign(createBlankDesign("Untitled field", id, "datafield"));
+    router.push(`/studio/${id}`);
+  }
+
   const featured = TEMPLATES[0];
   const previewDesign =
     designs[0] && designs[0].elements.length >= 2 ? designs[0] : featured.design;
 
   return (
     <AppShell>
-      <section className="grid items-start gap-8 lg:grid-cols-[1.35fr_1fr]">
+      <section className="flex flex-wrap items-end justify-between gap-5">
         <div>
-          <p className="mono text-[10px] uppercase tracking-[0.2em] text-accent">
-            Watch face studio
-          </p>
-          <h1 className="mt-3 max-w-[17ch] text-[34px] leading-[1.02] font-semibold tracking-tight sm:text-[42px]">
-            Rancang di browser.
-            <span className="mt-1 block font-serif text-[40px] leading-[0.95] font-normal italic tracking-[-0.01em] sm:text-[50px]">
-              Render di jam.
-            </span>
+          <h1 className="text-[28px] leading-[1.05] font-semibold tracking-tight sm:text-[34px]">
+            Studio{" "}
+            <span className="font-serif font-normal italic">Forerunner 165</span>
           </h1>
-          <p className="mt-4 max-w-[54ch] text-[15px] leading-relaxed text-muted">
-            Editor kanvas 390 x 390 dengan preview data simulasi. Desain yang sama
-            dibaca oleh renderer native Monkey C di Forerunner 165, jadi yang lo
-            lihat di sini adalah geometri yang benar-benar digambar di layar jam.
+          <p className="mt-2 max-w-[62ch] text-[14px] leading-relaxed text-muted">
+            Watch face dan data field lari, dari kanvas yang sama sampai file .prg.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-2.5">
-            <Button variant="primary" onClick={newDesign}>
-              <Plus size={16} />
-              Mulai desain baru
-            </Button>
-            <Link
-              href="/templates"
-              className="inline-flex h-9 items-center gap-2 rounded-md border border-line bg-raised px-3.5 text-sm font-medium text-ink transition-colors hover:border-line-strong"
-            >
-              <Grid size={15} />
-              Lihat template
-            </Link>
-          </div>
-          <dl className="mt-8 grid max-w-md grid-cols-3 gap-3">
-            {[
-              ["Kanvas", "390 x 390"],
-              ["Perangkat", "FR165"],
-              ["Render", "Native"],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-md border border-line bg-panel px-3 py-2.5">
-                <dt className="mono text-[9px] uppercase tracking-[0.16em] text-faint">
-                  {label}
-                </dt>
-                <dd className="mono mt-1 text-[13px]">{value}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
-
-        <Card className="overflow-hidden">
-          <div className="flex items-center justify-between border-b border-line px-4 py-3">
-            <div className="flex items-center gap-2">
-              <Watch size={15} className="text-muted" />
-              <span className="text-[13px] font-medium">{FR165.name}</span>
-            </div>
-            <Badge tone="accent">Target</Badge>
-          </div>
-          <div className="p-4">
-            <WatchFaceThumbnail design={featured.design} label="Contoh watch face" />
-          </div>
-          <dl className="grid grid-cols-2 gap-px border-t border-line bg-line">
-            {[
-              ["Layar", "390 x 390 AMOLED"],
-              ["API level", FR165.api],
-              ["Memori watch face", "128 KB"],
-              ["Warna", "16 bpp"],
-            ].map(([label, value]) => (
-              <div key={label} className="bg-panel px-4 py-3">
-                <dt className="mono text-[9px] uppercase tracking-[0.14em] text-faint">
-                  {label}
-                </dt>
-                <dd className="mt-1 text-[13px]">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </Card>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="primary" onClick={newDesign}>
+            <Plus size={16} />
+            Watch face
+          </Button>
+          <Button variant="secondary" onClick={newDataField}>
+            <Grid size={15} />
+            Data field
+          </Button>
+        </div>
       </section>
 
-      <section className="mt-12">
+      <dl className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 border-y border-line py-2.5">
+        {[
+          ["Layar", "390 x 390 AMOLED"],
+          ["API", FR165.api],
+          ["Memori", "128 KB"],
+          ["Warna", "16 bpp"],
+        ].map(([label, value]) => (
+          <div key={label} className="flex items-baseline gap-2">
+            <dt className="text-[11px] text-faint">{label}</dt>
+            <dd className="mono text-[11px] text-muted">{value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <section className="mt-10">
         <div className="max-w-[64ch]">
-          <p className="mono text-[10px] uppercase tracking-[0.2em] text-accent">
-            Simulator
-          </p>
-          <h2 className="mt-2 text-lg font-medium tracking-tight">
+          <h2 className="text-lg font-medium tracking-tight">
             Coba di Forerunner 165
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-muted">

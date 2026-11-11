@@ -57,10 +57,7 @@ export default function SettingsPage() {
   return (
     <AppShell>
       <div>
-        <p className="mono text-[10px] uppercase tracking-[0.2em] text-accent">
-          Settings
-        </p>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">Pengaturan studio</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Pengaturan studio</h1>
       </div>
 
       {note ? (

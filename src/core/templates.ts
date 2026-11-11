@@ -308,8 +308,7 @@ const horizon = build({
   ],
 });
 
-const focus = build({
-  version: 1,
+const focus = build({  version: 1,
   id: "tpl-focus",
   name: "Focus",
   updatedAt: STAMP,
@@ -333,6 +332,57 @@ const focus = build({
     { id: "e-label", type: "text", x: 195, y: 236, metric: "label", text: "BPM", size: 9, tracking: 3, color: "#8A93A3" },
     { id: "e-time", type: "text", x: 195, y: 306, metric: "time", size: 24 },
     { id: "e-date", type: "text", x: 195, y: 334, metric: "date", size: 10, color: "#6B7484" },
+  ],
+});
+
+const fieldPace = build({
+  version: 1,
+  id: "tpl-field-pace",
+  name: "Pace Panel",
+  kind: "datafield",
+  updatedAt: STAMP,
+  elements: [
+    { id: "e-label", type: "text", x: 195, y: 104, metric: "label", text: "PACE", size: 11, tracking: 3, color: "#8A93A3" },
+    { id: "e-pace", type: "text", x: 195, y: 190, metric: "pace", size: 72, family: "digits", weight: "bold" },
+    { id: "e-rule", type: "shape", x: 85, y: 248, w: 220, h: 1, fill: "#232B38" },
+    { id: "e-distance", type: "text", x: 120, y: 290, metric: "distance", size: 22 },
+    { id: "e-timer", type: "text", x: 270, y: 290, metric: "timer", size: 22 },
+    { id: "e-hr", type: "text", x: 195, y: 340, metric: "heartRate", size: 14, color: "#FF7A1A" },
+  ],
+});
+
+const fieldStack = build({
+  version: 1,
+  id: "tpl-field-stack",
+  name: "Run Stack",
+  kind: "datafield",
+  updatedAt: STAMP,
+  elements: [
+    { id: "e-dist-label", type: "text", x: 195, y: 84, metric: "label", text: "DISTANCE", size: 10, tracking: 3, color: "#6B7484" },
+    { id: "e-distance", type: "text", x: 195, y: 128, metric: "distance", size: 40, family: "digits", weight: "bold" },
+    { id: "e-rule", type: "shape", x: 70, y: 172, w: 250, h: 1, fill: "#232B38" },
+    { id: "e-time-label", type: "text", x: 195, y: 206, metric: "label", text: "TIME", size: 10, tracking: 3, color: "#6B7484" },
+    { id: "e-timer", type: "text", x: 195, y: 250, metric: "timer", size: 40, family: "digits" },
+    { id: "e-rule-2", type: "shape", x: 70, y: 292, w: 250, h: 1, fill: "#232B38" },
+    { id: "e-hr", type: "text", x: 195, y: 330, metric: "heartRate", size: 16, color: "#FF7A1A" },
+  ],
+});
+
+const fieldSplit = build({
+  version: 1,
+  id: "tpl-field-split",
+  name: "Split Field",
+  kind: "datafield",
+  updatedAt: STAMP,
+  elements: [
+    { id: "e-pace-label", type: "text", x: 118, y: 112, metric: "label", text: "PACE", size: 10, tracking: 3, color: "#6B7484" },
+    { id: "e-pace", type: "text", x: 118, y: 168, metric: "pace", size: 32, family: "digits", weight: "bold" },
+    { id: "e-hr-label", type: "text", x: 272, y: 112, metric: "label", text: "HEART", size: 10, tracking: 3, color: "#6B7484" },
+    { id: "e-hr", type: "text", x: 272, y: 168, metric: "heartRate", size: 32, family: "digits", color: "#FF7A1A" },
+    { id: "e-rule", type: "shape", x: 60, y: 222, w: 270, h: 1, fill: "#232B38" },
+    { id: "e-distance", type: "text", x: 118, y: 278, metric: "distance", size: 22 },
+    { id: "e-timer", type: "text", x: 272, y: 278, metric: "timer", size: 22 },
+    { id: "e-cadence", type: "text", x: 195, y: 338, metric: "cadence", size: 14, color: "#8A93A3" },
   ],
 });
 
@@ -421,21 +471,55 @@ export const TEMPLATES: Template[] = [
     tags: ["digital", "health", "aksen"],
     design: focus,
   },
+  {
+    id: "tpl-field-pace",
+    name: "Pace Panel",
+    description: "Data field lari: pace besar, jarak dan waktu di bawah.",
+    tags: ["datafield", "running", "pace"],
+    design: fieldPace,
+  },
+  {
+    id: "tpl-field-stack",
+    name: "Run Stack",
+    description: "Data field bertumpuk: jarak, waktu, detak jantung.",
+    tags: ["datafield", "running", "stack"],
+    design: fieldStack,
+  },
+  {
+    id: "tpl-field-split",
+    name: "Split Field",
+    description: "Pace dan detak berdampingan, jarak dan waktu di bawah.",
+    tags: ["datafield", "running", "split"],
+    design: fieldSplit,
+  },
 ];
 
 export function getTemplate(id: string): Template | undefined {
   return TEMPLATES.find((tpl) => tpl.id === id);
 }
 
-export function createBlankDesign(name = "Untitled", id?: string): Design {
+export function createBlankDesign(
+  name = "Untitled",
+  id?: string,
+  kind: Design["kind"] = "watchface"
+): Design {
   return build({
     version: 1,
     id: id ?? `d-${Date.now()}`,
     name,
+    kind,
     updatedAt: new Date().toISOString(),
-    elements: [
-      { id: "e-time", type: "text", x: 195, y: 195, metric: "time", size: 64, family: "digits", weight: "bold" },
-    ],
+    elements:
+      kind === "datafield"
+        ? [
+            { id: "e-label", type: "text", x: 195, y: 120, metric: "label", text: "PACE", size: 12, tracking: 3, color: "#8A93A3" },
+            { id: "e-pace", type: "text", x: 195, y: 195, metric: "pace", size: 68, family: "digits", weight: "bold" },
+            { id: "e-distance", type: "text", x: 120, y: 290, metric: "distance", size: 22 },
+            { id: "e-timer", type: "text", x: 270, y: 290, metric: "timer", size: 22 },
+          ]
+        : [
+            { id: "e-time", type: "text", x: 195, y: 195, metric: "time", size: 64, family: "digits", weight: "bold" },
+          ],
   });
 }
 

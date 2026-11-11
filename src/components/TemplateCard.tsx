@@ -33,7 +33,7 @@ export function TemplateCard({
           <div className="flex items-center justify-between gap-2">
             <h3 className="text-sm font-medium">{template.name}</h3>
             <span className="mono text-[10px] uppercase tracking-[0.14em] text-faint">
-              FR165
+              {template.design.kind === "datafield" ? "FIELD" : "FR165"}
             </span>
           </div>
           {compact ? null : (
@@ -49,7 +49,7 @@ export function TemplateCard({
             ))}
           </div>
           <Button size="sm" variant="secondary" onClick={applyTemplate}>
-            Pakai
+            Buka editor
           </Button>
         </div>
       </div>

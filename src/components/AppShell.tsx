@@ -91,7 +91,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <ThemeToggle />
             <Button variant="primary" size="sm" onClick={handleNewDesign}>
               <Plus size={15} />
-              <span className="hidden sm:inline">Desain baru</span>
+              <span className="hidden sm:inline">Watch face</span>
               <span className="sm:hidden">Baru</span>
             </Button>
           </div>
@@ -112,9 +112,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
 
       <footer className="border-t border-line">
-        <div className="mono mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-[10px] uppercase tracking-[0.14em] text-faint sm:px-6">
+        <div className="mono mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-[10px] text-faint sm:px-6">
           <span>WATCHCRAFT / Forerunner 165</span>
-          <span>Preview memakai data simulasi</span>
+          <span>Data lokal</span>
         </div>
       </footer>
     </div>

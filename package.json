@@ -14,7 +14,9 @@
     "lint": "biome check .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "watchface": "node watchface/build.mjs"
+    "watchface": "node watchface/build.mjs",
+    "datafield": "node datafield/build.mjs",
+    "native": "pnpm watchface && pnpm datafield"
   },
   "dependencies": {
     "next": "^16.4.5",

@@ -31,6 +31,11 @@ const TEXT_METRICS = [
   { value: "bodyBattery", label: "Body" },
   { value: "vo2max", label: "VO2" },
   { value: "altitude", label: "Altitud" },
+  { value: "timer", label: "Timer" },
+  { value: "pace", label: "Pace" },
+  { value: "speed", label: "Kecepatan" },
+  { value: "cadence", label: "Cadence" },
+  { value: "lap", label: "Lap" },
   { value: "label", label: "Teks bebas" },
 ] as const;
 

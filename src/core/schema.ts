@@ -31,6 +31,11 @@ export const TEXT_METRICS = [
   "bodyBattery",
   "vo2max",
   "altitude",
+  "timer",
+  "pace",
+  "speed",
+  "cadence",
+  "lap",
 ] as const;
 
 export const textElementSchema = z.object({
@@ -83,6 +88,7 @@ export const designSchema = z.object({
   version: z.literal(1),
   id: z.string().min(1).max(64),
   name: z.string().min(1).max(60),
+  kind: z.enum(["watchface", "datafield"]).default("watchface"),
   device: z.literal("fr165").default("fr165"),
   background: hexColor.default("#000000"),
   elements: z.array(elementSchema).max(40).default([]),
@@ -134,6 +140,11 @@ export function elementTitle(el: DesignElement): string {
       bodyBattery: "Body battery",
       vo2max: "VO2 max",
       altitude: "Altitude",
+      timer: "Timer",
+      pace: "Pace",
+      speed: "Speed",
+      cadence: "Cadence",
+      lap: "Lap",
     }[el.metric];
   }
   if (el.type === "arc") {
