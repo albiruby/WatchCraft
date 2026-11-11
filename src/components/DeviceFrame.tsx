@@ -13,25 +13,15 @@ export function DeviceFrame({ children }: { children: React.ReactNode }) {
       style={{ width: FRAME.width, height: FRAME.height }}
     >
       {/* Body diambil dari tangkapan layar Connect IQ Simulator, layar sudah dilubangi. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          maskImage:
-            "linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%)",
-        }}
-      >
-        <Image
-          src="/frames/fr165-body.png"
-          alt=""
-          width={FRAME.width}
-          height={FRAME.height}
-          draggable={false}
-          priority
-          className="h-full w-full"
-        />
-      </div>
+      <Image
+        src="/frames/fr165-body.png"
+        alt=""
+        width={FRAME.width}
+        height={FRAME.height}
+        draggable={false}
+        priority
+        className="pointer-events-none absolute inset-0 h-full w-full"
+      />
 
       <div
         className="absolute overflow-hidden rounded-full bg-black"

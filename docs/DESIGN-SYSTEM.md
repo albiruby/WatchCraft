@@ -4,11 +4,11 @@ Sistem visual WATCHCRAFT. Sumber implementasi: `src/app/globals.css`.
 
 ## Arah
 
-Studio profesional, bukan landing page. Tenang, presisi, lapang. Chrome gelap mengelilingi kanvas jam yang terang. Setiap keputusan visual harus bisa dijelaskan dalam satu baris.
+Studio profesional, bukan landing page. Tenang, presisi, lapang. Chrome terang mengelilingi kanvas jam yang gelap. Setiap keputusan visual harus bisa dijelaskan dalam satu baris.
 
 ## Warna
 
-Token didefinisikan sebagai CSS variable, lalu dipetakan ke Tailwind lewat `@theme inline`. Default gelap, terang lewat `[data-theme="light"]`.
+Token didefinisikan sebagai CSS variable, lalu dipetakan ke Tailwind lewat `@theme inline`. Default terang, gelap lewat `[data-theme="dark"]`.
 
 | Token | Gelap | Terang | Pemakaian |
 | --- | --- | --- | --- |

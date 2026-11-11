@@ -27,7 +27,7 @@ const SPECS: Array<[string, string]> = [
 ];
 
 export default function SettingsPage() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
   const [note, setNote] = useState<string | null>(null);
 
   useEffect(() => {

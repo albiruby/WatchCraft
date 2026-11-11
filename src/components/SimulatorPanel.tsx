@@ -179,7 +179,7 @@ export function SimulatorPanel({ design }: { design: Design }) {
   const data = buildSimulationData(settings);
   const patch = (next: Partial<SimulationSettings>) =>
     setSettings((current) => ({ ...current, ...next }));
-  const scale = 0.7;
+  const scale = 0.9;
 
   return (
     <Card className="overflow-hidden">
@@ -189,8 +189,8 @@ export function SimulatorPanel({ design }: { design: Design }) {
         action={<Badge tone="accent">Data simulasi</Badge>}
       />
 
-      <div className="grid gap-6 p-4 lg:grid-cols-[368px_1fr]">
-        <div className="mx-auto w-full max-w-[368px]">
+      <div className="grid gap-6 p-4 lg:grid-cols-[400px_1fr]">
+        <div className="mx-auto w-full max-w-[400px]">
           <div
             style={{ width: FRAME.width * scale, height: FRAME.height * scale }}
             className="mx-auto"

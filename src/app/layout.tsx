@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "Studio desain watch face yang dirender native di Garmin Forerunner 165.",
 };
 
-const themeScript = `(function(){try{var t=localStorage.getItem("watchcraft-theme");document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem("watchcraft-theme");document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})();`;
 
 export default function RootLayout({
   children,
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      data-theme="dark"
+      data-theme="light"
       className={`${sans.variable} ${display.variable} ${serif.variable}`}
       suppressHydrationWarning
     >
