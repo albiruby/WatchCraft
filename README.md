@@ -9,9 +9,10 @@ Rancang di browser, lihat preview pada device frame 390 x 390 dengan data simula
 Alpha. Yang sudah jalan:
 
 - Dashboard, templates, library, settings
-- Editor: kanvas, drag, snap tengah, layer, inspector, undo/redo, grid
+- Editor: kanvas, drag, snap tengah, smart guides, layer, inspector, undo/redo, grid
+- Multi-select, align, distribute, command palette (Ctrl+K)
 - Simpan otomatis ke localStorage, import dan export JSON
-- Export SVG dari display list yang sama dengan renderer native
+- Export SVG dan PNG dari display list yang sama dengan renderer native
 - Build `.prg` untuk fr165 lewat SDK 9.3.0
 - Watch face native: waktu, tanggal, busur baterai
 - Tema gelap dan terang
@@ -83,6 +84,7 @@ Langkah ini belum divalidasi di perangkat fisik. Catat hasilnya di `docs/TECHNIC
 - [Design system](docs/DESIGN-SYSTEM.md)
 - [Keputusan teknis](docs/DECISIONS.md)
 - [Catatan teknis](docs/TECHNICAL-NOTES.md)
+- [Riset kompetitor](docs/RESEARCH.md)
 
 ## Arah berikutnya
 

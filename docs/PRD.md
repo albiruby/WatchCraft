@@ -45,6 +45,9 @@ Satu desain, dua renderer. Geometri yang terlihat di browser adalah geometri yan
 | FR13 | Akun dan penyimpanan cloud | Belum |
 | FR14 | Panel simulator di dashboard: jam 12/24, bahasa, baterai, langkah, detak, sleep mode | Selesai |
 | FR15 | Bukti render native dari Connect IQ Simulator | Selesai |
+| FR16 | Multi-select, align, dan distribute | Selesai |
+| FR17 | Smart guides saat drag | Selesai |
+| FR18 | Command palette dan export PNG | Selesai |
 
 ## Kebutuhan non-fungsional
 

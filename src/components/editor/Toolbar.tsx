@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { ArrowLeft, Check, Download, Redo, Undo } from "@/components/icons";
+import { ArrowLeft, Check, Download, Redo, Search, Undo } from "@/components/icons";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Badge, Button } from "@/components/ui";
 import { SIMULATED_DATA } from "@/core/data";
@@ -28,7 +28,13 @@ function download(filename: string, content: string, type: string) {
   URL.revokeObjectURL(url);
 }
 
-export function Toolbar({ saved }: { saved: boolean }) {
+export function Toolbar({
+  saved,
+  onOpenPalette,
+}: {
+  saved: boolean;
+  onOpenPalette: () => void;
+}) {
   const design = useEditor((state) => state.design);
   const rename = useEditor((state) => state.rename);
   const undo = useEditor((state) => state.undo);
@@ -50,6 +56,32 @@ export function Toolbar({ saved }: { saved: boolean }) {
       buildStandaloneSvg(design, SIMULATED_DATA),
       "image/svg+xml"
     );
+  }
+
+  async function exportPng() {
+    const svg = buildStandaloneSvg(design, SIMULATED_DATA, { size: 780 });
+    const source = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    const image = new Image();
+
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 780;
+      canvas.height = 780;
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      context.drawImage(image, 0, 0, 780, 780);
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = `${slug(design.name)}.png`;
+        anchor.click();
+        URL.revokeObjectURL(url);
+      }, "image/png");
+    };
+
+    image.src = source;
   }
 
   return (
@@ -90,6 +122,17 @@ export function Toolbar({ saved }: { saved: boolean }) {
 
         <ThemeToggle />
 
+        <button
+          type="button"
+          onClick={onOpenPalette}
+          title="Command palette (Ctrl+K)"
+          aria-label="Buka command palette"
+          className="hidden h-9 items-center gap-2 rounded-md border border-line bg-raised px-2.5 text-muted transition-colors hover:border-line-strong hover:text-ink xl:flex"
+        >
+          <Search size={14} />
+          <span className="mono text-[9px] uppercase tracking-[0.1em]">Ctrl K</span>
+        </button>
+
         <div className="flex items-center rounded-md border border-line">
           <button
             type="button"
@@ -117,6 +160,10 @@ export function Toolbar({ saved }: { saved: boolean }) {
         <Button variant="secondary" size="sm" onClick={exportJson} className="hidden sm:inline-flex">
           <Download size={14} />
           JSON
+        </Button>
+        <Button variant="secondary" size="sm" onClick={exportPng} className="hidden lg:inline-flex">
+          <Download size={14} />
+          PNG
         </Button>
         <Button variant="primary" size="sm" onClick={exportSvg}>
           <Download size={14} />

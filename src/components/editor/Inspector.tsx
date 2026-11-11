@@ -4,7 +4,7 @@ import { Badge, Button } from "@/components/ui";
 import { Copy, Trash } from "@/components/icons";
 import { elementTitle } from "@/core/schema";
 import { FR165 } from "@/core/devices";
-import { useEditor, useSelectedElement } from "@/stores/editor";
+import { useEditor, useSelectedElement, type AlignDirection } from "@/stores/editor";
 import {
   ColorField,
   Field,
@@ -21,6 +21,10 @@ const TEXT_METRICS = [
   { value: "battery", label: "Baterai" },
   { value: "steps", label: "Langkah" },
   { value: "heartRate", label: "Detak" },
+  { value: "calories", label: "Kalori" },
+  { value: "distance", label: "Jarak" },
+  { value: "notifications", label: "Notif" },
+  { value: "weather", label: "Suhu" },
   { value: "label", label: "Teks bebas" },
 ] as const;
 
@@ -29,6 +33,32 @@ const ARC_METRICS = [
   { value: "steps", label: "Langkah" },
   { value: "heartRate", label: "Detak" },
 ] as const;
+
+const ALIGNMENTS: Array<[string, AlignDirection]> = [
+  ["Kiri", "left"],
+  ["Tengah", "hcenter"],
+  ["Kanan", "right"],
+  ["Atas", "top"],
+  ["Tengah", "vcenter"],
+  ["Bawah", "bottom"],
+];
+
+function AlignGrid({ onAlign }: { onAlign: (direction: AlignDirection) => void }) {
+  return (
+    <div className="grid grid-cols-3 gap-1.5">
+      {ALIGNMENTS.map(([label, direction]) => (
+        <button
+          key={`${label}-${direction}`}
+          type="button"
+          onClick={() => onAlign(direction)}
+          className="h-7 rounded border border-line bg-raised text-[10px] font-medium text-muted transition-colors hover:border-line-strong hover:text-ink"
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export function Inspector() {
   const element = useSelectedElement();
@@ -39,6 +69,75 @@ export function Inspector() {
   const setBackground = useEditor((state) => state.setBackground);
   const toggleVisible = useEditor((state) => state.toggleVisible);
   const toggleLocked = useEditor((state) => state.toggleLocked);
+  const selectedIds = useEditor((state) => state.selectedIds);
+  const align = useEditor((state) => state.align);
+  const distribute = useEditor((state) => state.distribute);
+  const duplicateSelected = useEditor((state) => state.duplicateSelected);
+  const removeSelected = useEditor((state) => state.removeSelected);
+
+  if (selectedIds.length > 1) {
+    return (
+      <div className="flex min-h-0 flex-1 flex-col">
+        <header className="flex h-11 shrink-0 items-center justify-between gap-2 border-b border-line px-3.5">
+          <div>
+            <p className="text-[12px] font-medium">Pilihan banyak</p>
+            <p className="mono text-[9px] text-faint">{selectedIds.length} elemen aktif</p>
+          </div>
+          <Badge tone="accent">{selectedIds.length}</Badge>
+        </header>
+
+        <div className="scroll-slim min-h-0 flex-1 overflow-y-auto">
+          <Section title="Rata ke kanvas">
+            <AlignGrid onAlign={align} />
+          </Section>
+
+          <Section title="Distribusi jarak">
+            <div className="grid grid-cols-2 gap-1.5">
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={selectedIds.length < 3}
+                onClick={() => distribute("horizontal")}
+              >
+                Horizontal
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                disabled={selectedIds.length < 3}
+                onClick={() => distribute("vertical")}
+              >
+                Vertikal
+              </Button>
+            </div>
+            {selectedIds.length < 3 ? (
+              <p className="pt-1.5 text-[10px] leading-relaxed text-faint">
+                Distribusi butuh minimal 3 elemen.
+              </p>
+            ) : null}
+          </Section>
+
+          <div className="grid grid-cols-2 gap-2 p-3.5">
+            <Button size="sm" variant="secondary" onClick={duplicateSelected}>
+              <Copy size={13} />
+              Duplikat
+            </Button>
+            <Button size="sm" variant="danger" onClick={removeSelected}>
+              <Trash size={13} />
+              Hapus
+            </Button>
+          </div>
+
+          <div className="px-3.5 pb-4">
+            <p className="text-[10px] leading-relaxed text-faint">
+              Shift klik di kanvas atau layer untuk menambah dan mengurangi pilihan.
+              Tarik salah satu elemen untuk memindahkan semuanya sekaligus.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!element) {
     return (
@@ -118,6 +217,10 @@ export function Inspector() {
               Teks digambar dengan titik pusat di X dan Y.
             </p>
           )}
+        </Section>
+
+        <Section title="Rata kanvas">
+          <AlignGrid onAlign={align} />
         </Section>
 
         {element.type === "text" ? (

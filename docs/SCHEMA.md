@@ -52,6 +52,10 @@ Nilai metrik:
 | battery | `78%` | `System.getSystemStats().battery` |
 | steps | `6,420` | `ActivityMonitor`, butuh izin |
 | heartRate | `62 BPM` | `SensorHistory`, butuh izin |
+| calories | `1,480 KCAL` | `ActivityMonitor`, butuh izin |
+| distance | `7.42 KM` | `ActivityMonitor`, butuh izin |
+| notifications | `3 MSG` | `Notifications`, butuh izin |
+| weather | `27°C` | `Weather`, butuh koneksi |
 | label | teks bebas | konstanta |
 
 ### Shape

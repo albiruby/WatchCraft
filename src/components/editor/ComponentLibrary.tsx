@@ -92,6 +92,62 @@ const GROUPS: Array<{ title: string; items: Item[] }> = [
             size: 18,
           }),
       },
+      {
+        key: "calories",
+        label: "Kalori",
+        hint: "Total kalori",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("calories"),
+            type: "text",
+            x: 195,
+            y: 150,
+            metric: "calories",
+            size: 18,
+          }),
+      },
+      {
+        key: "distance",
+        label: "Jarak",
+        hint: "Kilometer",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("distance"),
+            type: "text",
+            x: 195,
+            y: 260,
+            metric: "distance",
+            size: 18,
+          }),
+      },
+      {
+        key: "notifications",
+        label: "Notif",
+        hint: "Jumlah pesan",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("notifications"),
+            type: "text",
+            x: 195,
+            y: 110,
+            metric: "notifications",
+            size: 14,
+          }),
+      },
+      {
+        key: "weather",
+        label: "Suhu",
+        hint: "Cuaca",
+        make: () =>
+          textElementSchema.parse({
+            id: uid("weather"),
+            type: "text",
+            x: 195,
+            y: 300,
+            metric: "weather",
+            size: 18,
+          }),
+      },
     ],
   },
   {

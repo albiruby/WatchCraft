@@ -11,6 +11,7 @@ import { saveDesign } from "@/lib/storage";
 import { useEditor } from "@/stores/editor";
 import { Canvas } from "./Canvas";
 import { FRAME } from "@/components/DeviceFrame";
+import { CommandPalette } from "./CommandPalette";
 import { ComponentLibrary } from "./ComponentLibrary";
 import { Inspector } from "./Inspector";
 import { LayersPanel } from "./LayersPanel";
@@ -19,16 +20,13 @@ import { Toolbar } from "./Toolbar";
 export function EditorShell() {
   const design = useEditor((state) => state.design);
   const selectedId = useEditor((state) => state.selectedId);
-  const undo = useEditor((state) => state.undo);
-  const redo = useEditor((state) => state.redo);
-  const remove = useEditor((state) => state.remove);
-  const nudge = useEditor((state) => state.nudge);
-  const select = useEditor((state) => state.select);
+  const selectedIds = useEditor((state) => state.selectedIds);
 
   const [zoom, setZoom] = useState(0.9);
   const [showGrid, setShowGrid] = useState(true);
   const [saved, setSaved] = useState(false);
   const [blocked, setBlocked] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
 
   useEffect(() => {
     function applyFit() {
@@ -65,48 +63,73 @@ export function EditorShell() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
+      const mod = event.metaKey || event.ctrlKey;
+      const key = event.key.toLowerCase();
+
+      if (mod && key === "k") {
+        event.preventDefault();
+        setPaletteOpen((value) => !value);
+        return;
+      }
+
+      if (paletteOpen && event.key === "Escape") {
+        setPaletteOpen(false);
+        return;
+      }
+
       const target = event.target as HTMLElement | null;
       if (target && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return;
 
-      const mod = event.metaKey || event.ctrlKey;
       const store = useEditor.getState();
 
-      if (mod && event.key.toLowerCase() === "z") {
+      if (mod && key === "z") {
         event.preventDefault();
-        if (event.shiftKey) redo();
-        else undo();
+        if (event.shiftKey) store.redo();
+        else store.undo();
+        return;
+      }
+
+      if (mod && key === "d") {
+        event.preventDefault();
+        store.duplicateSelected();
+        return;
+      }
+
+      if (mod && key === "a") {
+        event.preventDefault();
+        store.selectMany(store.design.elements.map((element) => element.id));
         return;
       }
 
       if (event.key === "Escape") {
-        select(null);
+        store.select(null);
         return;
       }
 
-      if (!store.selectedId) return;
+      if (store.selectedIds.length === 0) return;
 
       const step = event.shiftKey ? 10 : 1;
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        nudge(store.selectedId, -step, 0);
+        store.nudgeSelected(-step, 0);
       } else if (event.key === "ArrowRight") {
         event.preventDefault();
-        nudge(store.selectedId, step, 0);
+        store.nudgeSelected(step, 0);
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
-        nudge(store.selectedId, 0, -step);
+        store.nudgeSelected(0, -step);
       } else if (event.key === "ArrowDown") {
         event.preventDefault();
-        nudge(store.selectedId, 0, step);
+        store.nudgeSelected(0, step);
       } else if (event.key === "Delete" || event.key === "Backspace") {
         event.preventDefault();
-        remove(store.selectedId);
+        store.removeSelected();
       }
     }
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [nudge, redo, remove, select, undo]);
+  }, [paletteOpen]);
 
   const selected = selectedId
     ? design.elements.find((element) => element.id === selectedId) ?? null
@@ -115,7 +138,7 @@ export function EditorShell() {
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-page">
-      <Toolbar saved={saved} />
+      <Toolbar saved={saved} onOpenPalette={() => setPaletteOpen(true)} />
 
       <div className="flex min-h-0 flex-1">
         <aside className="scroll-slim hidden w-[236px] shrink-0 overflow-y-auto border-r border-line bg-panel lg:block">
@@ -178,7 +201,12 @@ export function EditorShell() {
 
           <footer className="flex h-8 shrink-0 items-center justify-between gap-3 border-t border-line px-3">
             <span className="mono text-[9px] uppercase tracking-[0.12em] text-faint">
-              {design.elements.length} elemen / {selected ? elementTitle(selected) : "tanpa pilihan"}
+              {design.elements.length} elemen /{" "}
+              {selectedIds.length > 1
+                ? `${selectedIds.length} dipilih`
+                : selected
+                  ? elementTitle(selected)
+                  : "tanpa pilihan"}
             </span>
             <span
               className={cn(
@@ -217,6 +245,10 @@ export function EditorShell() {
             </Link>
           </div>
         </div>
+      ) : null}
+
+      {paletteOpen ? (
+        <CommandPalette onClose={() => setPaletteOpen(false)} />
       ) : null}
     </div>
   );

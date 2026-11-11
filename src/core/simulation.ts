@@ -46,5 +46,8 @@ export function buildSimulationData(settings: SimulationSettings): MetricData {
     steps: settings.activityTracking ? Math.max(0, settings.steps) : 0,
     heartRate: clamp(settings.heartRate, 30, 220),
     calories: 1480,
+    distance: 7.42,
+    notifications: 3,
+    weather: 27,
   };
 }

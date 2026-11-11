@@ -1,15 +1,19 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { DeviceFrame, FRAME } from "@/components/DeviceFrame";
 import { DisplayListSvg } from "@/components/DisplayListSvg";
 import { SIMULATED_DATA } from "@/core/data";
-import { elementBounds } from "@/core/renderer";
+import { elementBounds, type Bounds } from "@/core/renderer";
 import type { DesignElement } from "@/core/schema";
 import { useEditor } from "@/stores/editor";
 
 const GRID_STEPS = Array.from({ length: 12 }, (_, i) => (i + 1) * 30);
+const SNAP_DISTANCE = 4;
+const CANVAS = 390;
+
+type Guides = { x: number | null; y: number | null };
 
 function GridOverlay() {
   return (
@@ -20,7 +24,7 @@ function GridOverlay() {
           x1={value}
           y1={0}
           x2={value}
-          y2={390}
+          y2={CANVAS}
           stroke="rgba(255,255,255,0.09)"
           strokeWidth={1}
           vectorEffect="non-scaling-stroke"
@@ -31,7 +35,7 @@ function GridOverlay() {
           key={`h-${value}`}
           x1={0}
           y1={value}
-          x2={390}
+          x2={CANVAS}
           y2={value}
           stroke="rgba(255,255,255,0.09)"
           strokeWidth={1}
@@ -42,7 +46,7 @@ function GridOverlay() {
         x1={195}
         y1={0}
         x2={195}
-        y2={390}
+        y2={CANVAS}
         stroke="rgba(255,122,26,0.28)"
         strokeWidth={1}
         vectorEffect="non-scaling-stroke"
@@ -50,7 +54,7 @@ function GridOverlay() {
       <line
         x1={0}
         y1={195}
-        x2={390}
+        x2={CANVAS}
         y2={195}
         stroke="rgba(255,122,26,0.28)"
         strokeWidth={1}
@@ -98,34 +102,70 @@ function SelectionHandles({ x, y, w, h }: { x: number; y: number; w: number; h: 
   );
 }
 
+function findSnap(
+  edges: number[],
+  targets: number[]
+): { adjust: number; line: number } | null {
+  let best: { adjust: number; line: number; distance: number } | null = null;
+
+  for (const edge of edges) {
+    for (const target of targets) {
+      const distance = Math.abs(edge - target);
+      if (distance > SNAP_DISTANCE) continue;
+      if (!best || distance < best.distance) {
+        best = { adjust: target - edge, line: target, distance };
+      }
+    }
+  }
+
+  return best ? { adjust: best.adjust, line: best.line } : null;
+}
+
 export function Canvas({ zoom, showGrid }: { zoom: number; showGrid: boolean }) {
   const design = useEditor((state) => state.design);
   const selectedId = useEditor((state) => state.selectedId);
+  const selectedIds = useEditor((state) => state.selectedIds);
   const select = useEditor((state) => state.select);
-  const update = useEditor((state) => state.update);
+  const toggleSelect = useEditor((state) => state.toggleSelect);
   const begin = useEditor((state) => state.begin);
+  const setPositions = useEditor((state) => state.setPositions);
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const drag = useRef<{
-    id: string;
+    ids: string[];
     startX: number;
     startY: number;
-    originX: number;
-    originY: number;
+    origins: Map<string, { x: number; y: number }>;
+    primaryBounds: Bounds;
   } | null>(null);
+  const [guides, setGuides] = useState<Guides>({ x: null, y: null });
 
   function startDrag(event: React.PointerEvent<SVGRectElement>, element: DesignElement) {
     event.stopPropagation();
-    select(element.id);
+
+    if (event.shiftKey) {
+      event.preventDefault();
+      toggleSelect(element.id);
+      return;
+    }
+
+    const ids = selectedIds.includes(element.id) ? selectedIds : [element.id];
+    if (!selectedIds.includes(element.id)) select(element.id);
     if (element.locked) return;
 
     begin();
+    const origins = new Map<string, { x: number; y: number }>();
+    for (const id of ids) {
+      const item = design.elements.find((el) => el.id === id);
+      if (item) origins.set(id, { x: item.x, y: item.y });
+    }
+
     drag.current = {
-      id: element.id,
+      ids,
       startX: event.clientX,
       startY: event.clientY,
-      originX: element.x,
-      originY: element.y,
+      origins,
+      primaryBounds: elementBounds(element, SIMULATED_DATA),
     };
     svgRef.current?.setPointerCapture(event.pointerId);
   }
@@ -136,22 +176,47 @@ export function Canvas({ zoom, showGrid }: { zoom: number; showGrid: boolean }) 
     if (!current || !svg) return;
 
     const rect = svg.getBoundingClientRect();
-    const scale = 390 / rect.width;
-    let x = current.originX + (event.clientX - current.startX) * scale;
-    let y = current.originY + (event.clientY - current.startY) * scale;
+    const scale = CANVAS / rect.width;
+    let dx = (event.clientX - current.startX) * scale;
+    let dy = (event.clientY - current.startY) * scale;
 
-    if (Math.abs(x - 195) <= 3) x = 195;
-    if (Math.abs(y - 195) <= 3) y = 195;
+    const bounds = current.primaryBounds;
+    const xTargets = [0, 195, 390];
+    const yTargets = [0, 195, 390];
 
-    update(current.id, {
-      x: Math.round(x * 10) / 10,
-      y: Math.round(y * 10) / 10,
-    });
+    for (const element of design.elements) {
+      if (current.ids.includes(element.id) || !element.visible) continue;
+      const other = elementBounds(element, SIMULATED_DATA);
+      xTargets.push(other.x, other.x + other.w / 2, other.x + other.w);
+      yTargets.push(other.y, other.y + other.h / 2, other.y + other.h);
+    }
+
+    const xEdges = [bounds.x + dx, bounds.x + bounds.w / 2 + dx, bounds.x + bounds.w + dx];
+    const yEdges = [bounds.y + dy, bounds.y + bounds.h / 2 + dy, bounds.y + bounds.h + dy];
+
+    const snapX = findSnap(xEdges, xTargets);
+    const snapY = findSnap(yEdges, yTargets);
+
+    if (snapX) dx += snapX.adjust;
+    if (snapY) dy += snapY.adjust;
+
+    setPositions(
+      current.ids.map((id) => {
+        const origin = current.origins.get(id) ?? { x: 0, y: 0 };
+        return {
+          id,
+          x: Math.round((origin.x + dx) * 10) / 10,
+          y: Math.round((origin.y + dy) * 10) / 10,
+        };
+      })
+    );
+    setGuides({ x: snapX?.line ?? null, y: snapY?.line ?? null });
   }
 
   function endDrag(event: React.PointerEvent<SVGSVGElement>) {
     if (drag.current) {
       drag.current = null;
+      setGuides({ x: null, y: null });
       if (svgRef.current?.hasPointerCapture(event.pointerId)) {
         svgRef.current.releasePointerCapture(event.pointerId);
       }
@@ -172,7 +237,7 @@ export function Canvas({ zoom, showGrid }: { zoom: number; showGrid: boolean }) 
 
             <svg
               ref={svgRef}
-              viewBox="0 0 390 390"
+              viewBox={`0 0 ${CANVAS} ${CANVAS}`}
               className="absolute inset-0 h-full w-full"
               style={{ touchAction: "none" }}
               onPointerDown={() => select(null)}
@@ -183,9 +248,35 @@ export function Canvas({ zoom, showGrid }: { zoom: number; showGrid: boolean }) 
               <title>Kanvas editor WATCHCRAFT</title>
               {showGrid ? <GridOverlay /> : null}
 
+              {guides.x !== null ? (
+                <line
+                  x1={guides.x}
+                  y1={0}
+                  x2={guides.x}
+                  y2={CANVAS}
+                  stroke="#FF7A1A"
+                  strokeWidth={1}
+                  strokeDasharray="4 4"
+                  vectorEffect="non-scaling-stroke"
+                />
+              ) : null}
+              {guides.y !== null ? (
+                <line
+                  x1={0}
+                  y1={guides.y}
+                  x2={CANVAS}
+                  y2={guides.y}
+                  stroke="#FF7A1A"
+                  strokeWidth={1}
+                  strokeDasharray="4 4"
+                  vectorEffect="non-scaling-stroke"
+                />
+              ) : null}
+
               {[...design.elements].reverse().map((element) => {
                 const bounds = elementBounds(element, SIMULATED_DATA);
-                const selected = element.id === selectedId;
+                const selected = selectedIds.includes(element.id);
+                const primary = element.id === selectedId;
                 return (
                   <g key={element.id}>
                     <rect
@@ -201,7 +292,7 @@ export function Canvas({ zoom, showGrid }: { zoom: number; showGrid: boolean }) 
                       style={{ cursor: element.locked ? "default" : "move" }}
                       onPointerDown={(event) => startDrag(event, element)}
                     />
-                    {selected ? (
+                    {primary ? (
                       <>
                         <SelectionHandles
                           x={bounds.x}
@@ -239,7 +330,9 @@ export function Canvas({ zoom, showGrid }: { zoom: number; showGrid: boolean }) 
       </div>
 
       <p className="mono text-[9px] uppercase tracking-[0.18em] text-faint">
-        Preview data simulasi
+        {selectedIds.length > 1
+          ? `${selectedIds.length} elemen dipilih`
+          : "Preview data simulasi"}
       </p>
     </div>
   );

@@ -7,6 +7,9 @@ export type MetricData = {
   steps: number;
   heartRate: number;
   calories: number;
+  distance: number;
+  notifications: number;
+  weather: number;
 };
 
 export const SIMULATED_DATA: MetricData = {
@@ -16,6 +19,9 @@ export const SIMULATED_DATA: MetricData = {
   steps: 6420,
   heartRate: 62,
   calories: 1480,
+  distance: 7.42,
+  notifications: 3,
+  weather: 27,
 };
 
 export function groupDigits(value: number): string {
@@ -42,6 +48,14 @@ export function metricText(el: TextElement, data: MetricData): string {
       return groupDigits(data.steps);
     case "heartRate":
       return `${Math.round(data.heartRate)} BPM`;
+    case "calories":
+      return `${groupDigits(data.calories)} KCAL`;
+    case "distance":
+      return `${data.distance.toFixed(2)} KM`;
+    case "notifications":
+      return `${Math.round(data.notifications)} MSG`;
+    case "weather":
+      return `${Math.round(data.weather)}°C`;
     default:
       return "";
   }

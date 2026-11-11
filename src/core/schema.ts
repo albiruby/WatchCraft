@@ -21,6 +21,10 @@ export const TEXT_METRICS = [
   "battery",
   "steps",
   "heartRate",
+  "calories",
+  "distance",
+  "notifications",
+  "weather",
 ] as const;
 
 export const textElementSchema = z.object({
@@ -108,7 +112,17 @@ export function safeParseDesign(
 export function elementTitle(el: DesignElement): string {
   if (el.type === "text") {
     if (el.metric === "label") return el.text || "Text";
-    return { time: "Time", date: "Date", battery: "Battery", steps: "Steps", heartRate: "Heart rate" }[el.metric];
+    return {
+      time: "Time",
+      date: "Date",
+      battery: "Battery",
+      steps: "Steps",
+      heartRate: "Heart rate",
+      calories: "Calories",
+      distance: "Distance",
+      notifications: "Notifications",
+      weather: "Weather",
+    }[el.metric];
   }
   if (el.type === "arc") {
     return { battery: "Battery arc", steps: "Steps arc", heartRate: "Heart rate arc" }[el.metric];
