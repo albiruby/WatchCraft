@@ -6,6 +6,8 @@ coverage/
 
 # Monkey C build output
 watchface/bin/
+watchface/source/gen/
+frameprobe/bin/
 datafield/bin/
 *.prg
 *.iq
@@ -20,3 +22,4 @@ Thumbs.db
 next-env.d.ts
 .playwright-mcp/
 audit/
+watchface/designs/web/

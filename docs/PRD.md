@@ -40,7 +40,7 @@ Satu desain, dua renderer. Geometri yang terlihat di browser adalah geometri yan
 | FR8 | Import dan export JSON tervalidasi schema | Selesai |
 | FR9 | Export SVG dari display list | Selesai |
 | FR10 | Build `.prg` untuk fr165 | Selesai |
-| FR11 | Render native yang cocok dengan preview | Sebagian, template Quiet |
+| FR11 | Render native yang cocok dengan preview | Selesai, interpreter untuk semua tipe elemen |
 | FR12 | Sinkronisasi desain tanpa install ulang | Belum, menunggu spike |
 | FR13 | Akun dan penyimpanan cloud | Belum |
 | FR14 | Panel simulator di dashboard: jam 12/24, bahasa, baterai, langkah, detak, sleep mode | Selesai |
@@ -49,6 +49,10 @@ Satu desain, dua renderer. Geometri yang terlihat di browser adalah geometri yan
 | FR17 | Smart guides saat drag | Selesai |
 | FR18 | Command palette dan export PNG | Selesai |
 | FR19 | Marquee, context menu, snap grid, pencarian layer, 12 template, 16 metrik | Selesai |
+| FR20 | Elemen analog: jarum dan tick, plus 3 template analog | Selesai |
+| FR21 | Flag always-on per elemen, preview AOD di simulator web dan native | Selesai, AOD native belum diuji di simulator |
+| FR22 | Simulator live: jam nyata, detak dan langkah bergerak | Selesai |
+| FR23 | Build ke jam dari editor dan muat ke simulator (dev lokal) | Selesai, Windows |
 
 ## Kebutuhan non-fungsional
 

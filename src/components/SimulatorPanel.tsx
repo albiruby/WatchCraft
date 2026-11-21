@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { DeviceFrame } from "@/components/DeviceFrame";
 import { FRAMES } from "@/core/frames";
@@ -11,11 +11,20 @@ import type { Design } from "@/core/schema";
 import {
   DEFAULT_SIMULATION,
   buildSimulationData,
+  clockFromDate,
+  liveDrift,
   type SimulationSettings,
 } from "@/core/simulation";
 import { cn } from "@/lib/cn";
 
 const STORAGE_KEY = "watchcraft:simulation";
+
+// Frame visual dipilih per resolusi layar, bukan per model.
+const FRAME_BY_RESOLUTION: Record<string, keyof typeof FRAMES> = {
+  "390x390": "fr165",
+  "416x416": "fr265",
+  "218x218": "fr255s",
+};
 
 function loadSettings(): SimulationSettings {
   try {
@@ -184,27 +193,54 @@ export function SimulatorPanel({
     }
   }, [settings, ready]);
 
-  const data = buildSimulationData(settings);
+  const [now, setNow] = useState<Date | null>(null);
+  const startedAt = useRef<number | null>(null);
+  const live = ready && settings.live;
+
+  useEffect(() => {
+    if (!live) {
+      setNow(null);
+      return;
+    }
+    const tick = () => {
+      const date = new Date();
+      if (startedAt.current === null) startedAt.current = date.getTime();
+      setNow(date);
+    };
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [live]);
+
+  const elapsed = now && startedAt.current !== null ? (now.getTime() - startedAt.current) / 1000 : 0;
+  const data =
+    live && now
+      ? buildSimulationData({ ...settings, ...liveDrift(settings, elapsed) }, clockFromDate(now))
+      : buildSimulationData(settings);
+  const aod = settings.sleepMode;
   const patch = (next: Partial<SimulationSettings>) =>
     setSettings((current) => ({ ...current, ...next }));
-  const directFrame = FRAMES[device.id as keyof typeof FRAMES];
-  const bySizeFrame =
-    device.width === 416
-      ? FRAMES.fr265
-      : device.width === 390
-        ? FRAMES.fr165
-        : device.width === 218
-          ? FRAMES.fr255sm
-          : null;
-  const frame = directFrame ?? bySizeFrame;
-  const scale = frame?.id === "fr265" ? 0.62 : 0.9;
+  const frame =
+    FRAMES[device.id as keyof typeof FRAMES] ??
+    FRAMES[FRAME_BY_RESOLUTION[`${device.width}x${device.height}`]] ??
+    null;
+  const scale = frame ? Math.min(0.9, 400 / frame.width) : 0.9;
 
   return (
     <Card className="overflow-hidden">
       <CardHeader
         title="Simulator"
         meta={device.name}
-        action={<Badge tone="accent">Data simulasi</Badge>}
+        action={
+          <span className="flex items-center gap-2">
+            {live && now ? (
+              <span className="mono text-[11px] text-muted" aria-live="off">
+                {now.toLocaleTimeString("en-GB")}
+              </span>
+            ) : null}
+            <Badge tone="accent">Data simulasi</Badge>
+          </span>
+        }
       />
 
       <div className="grid gap-6 p-4 lg:grid-cols-[400px_1fr]">
@@ -217,10 +253,15 @@ export function SimulatorPanel({
               <div style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
                 <DeviceFrame frame={frame}>
                   <div
-                    className="absolute inset-0"
-                    style={{ filter: settings.sleepMode ? "brightness(0.45)" : undefined }}
+                    className="absolute inset-0 transition-[filter] duration-200"
+                    style={{ filter: aod ? "brightness(0.6)" : undefined }}
                   >
-                    <DisplayListSvg design={design} data={data} label="Preview simulator" />
+                    <DisplayListSvg
+                      design={design}
+                      data={data}
+                      aod={aod}
+                      label={aod ? "Preview simulator, mode always-on" : "Preview simulator"}
+                    />
                   </div>
                 </DeviceFrame>
               </div>
@@ -242,7 +283,7 @@ export function SimulatorPanel({
             <span className="text-[11px] text-faint">
               {design.name}
             </span>
-            {settings.sleepMode ? <Badge>Sleep mode</Badge> : null}
+            {aod ? <Badge>Always-on</Badge> : null}
           </div>
         </div>
 
@@ -345,12 +386,21 @@ export function SimulatorPanel({
             </div>
           </div>
 
-          <div className="rounded-md border border-line bg-panel p-3 sm:col-span-2">
+          <div className="grid gap-2 rounded-md border border-line bg-panel p-3 sm:col-span-2 sm:grid-cols-2">
             <Switch
-              label="Sleep mode (redupkan layar)"
+              label="Live: jam berjalan"
+              checked={settings.live}
+              onChange={(value) => patch({ live: value })}
+            />
+            <Switch
+              label="Always-on (layar redup)"
               checked={settings.sleepMode}
               onChange={(value) => patch({ sleepMode: value })}
             />
+            <p className="text-[10px] leading-relaxed text-faint sm:col-span-2">
+              Always-on hanya menggambar elemen bertanda AOD di atas latar hitam, tanpa
+              jarum detik. Sama dengan perilaku watch face native saat jam tidur.
+            </p>
           </div>
 
           {design.kind === "datafield" ? (

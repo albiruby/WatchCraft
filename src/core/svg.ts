@@ -66,6 +66,10 @@ function commandToSvg(command: DisplayCommand): string {
     return `<path d="${arcPath(command.cx, command.cy, command.r, command.start, command.sweep)}" fill="none" stroke="${command.color}" stroke-width="${command.width}" stroke-linecap="${command.cap}" />`;
   }
 
+  if (command.kind === "line") {
+    return `<line x1="${round(command.x1)}" y1="${round(command.y1)}" x2="${round(command.x2)}" y2="${round(command.y2)}" stroke="${command.color}" stroke-width="${round(command.width)}" stroke-linecap="round" />`;
+  }
+
   const anchor =
     command.align === "center" ? "middle" : command.align === "right" ? "end" : "start";
 
@@ -75,9 +79,9 @@ function commandToSvg(command: DisplayCommand): string {
 export function buildStandaloneSvg(
   design: Design,
   data: MetricData,
-  options: { size?: number; background?: boolean } = {}
+  options: { size?: number; background?: boolean; aod?: boolean } = {}
 ): string {
-  const list = buildDisplayList(design, data);
+  const list = buildDisplayList(design, data, { aod: options.aod });
   const size = options.size ?? list.width;
   const background =
     options.background === false

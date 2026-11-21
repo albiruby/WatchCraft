@@ -74,7 +74,7 @@ describe("metric text", () => {
   });
 
   it("renders each metric", () => {
-    const base = { id: "t", type: "text" as const, x: 0, y: 0, size: 20, family: "mono" as const, weight: "medium" as const, color: "#FFFFFF", align: "center" as const, tracking: 0, visible: true, locked: false };
+    const base = { id: "t", type: "text" as const, x: 0, y: 0, size: 20, family: "mono" as const, weight: "medium" as const, color: "#FFFFFF", align: "center" as const, tracking: 0, visible: true, locked: false, aod: false };
     expect(metricText({ ...base, metric: "time", text: "" }, SIMULATED_DATA)).toBe("10:09");
     expect(metricText({ ...base, metric: "battery", text: "" }, SIMULATED_DATA)).toBe("78%");
     expect(metricText({ ...base, metric: "steps", text: "" }, SIMULATED_DATA)).toBe("6,420");
@@ -109,6 +109,49 @@ describe("renderer", () => {
     const list = buildDisplayList(template.design, { ...SIMULATED_DATA, battery: 0 });
     const arcs = list.commands.filter((c) => c.kind === "arc");
     expect(arcs[1].kind === "arc" && arcs[1].sweep).toBeCloseTo(0.01, 5);
+  });
+});
+
+describe("analog elements", () => {
+  it("draws one line per tick", () => {
+    const template = mustGetTemplate("tpl-chronograph");
+    const ticks = template.design.elements.filter((el) => el.type === "ticks");
+    const list = buildDisplayList({ ...template.design, elements: ticks }, SIMULATED_DATA);
+    expect(list.commands.filter((c) => c.kind === "line")).toHaveLength(60 + 12);
+  });
+
+  it("points hands at the simulated time", () => {
+    const template = mustGetTemplate("tpl-chronograph");
+    const hands = template.design.elements.filter((el) => el.type === "hands");
+    const data = { ...SIMULATED_DATA, hour: 3, minute: 0, second: 0 };
+    const lines = buildDisplayList({ ...template.design, elements: hands }, data).commands.filter(
+      (c) => c.kind === "line"
+    );
+    const hour = lines[0];
+    const minute = lines[1];
+    // Jam 3 tepat: jarum jam ke kanan, jarum menit ke atas.
+    expect(hour.kind === "line" && hour.x2 > hour.x1).toBe(true);
+    expect(hour.kind === "line" && Math.abs(hour.y2 - hour.y1)).toBeLessThan(0.01);
+    expect(minute.kind === "line" && minute.y2 < minute.y1).toBe(true);
+  });
+
+  it("keeps only always-on elements and drops the second hand in aod", () => {
+    const template = mustGetTemplate("tpl-chronograph");
+    const awake = buildDisplayList(template.design, SIMULATED_DATA);
+    const aod = buildDisplayList(template.design, SIMULATED_DATA, { aod: true });
+    expect(aod.commands.length).toBeLessThan(awake.commands.length);
+    expect(aod.background).toBe("#000000");
+    expect(aod.commands.some((c) => c.kind === "text" && c.text === "78%")).toBe(false);
+    const handLines = (list: typeof aod) =>
+      list.commands.filter((c) => c.kind === "line" && c.width >= 6).length;
+    expect(handLines(aod)).toBeGreaterThan(0);
+    expect(aod.commands.filter((c) => c.kind === "line" && c.width === 2 && c.color === "#FF7A1A")).toHaveLength(0);
+  });
+
+  it("gives every watch face template at least one always-on element", () => {
+    for (const template of TEMPLATES.filter((t) => t.design.kind === "watchface")) {
+      expect(template.design.elements.some((el) => el.aod)).toBe(true);
+    }
   });
 });
 

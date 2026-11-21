@@ -27,10 +27,11 @@ const serif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "WATCHCRAFT",
   description:
-    "Studio desain watch face yang dirender native di Garmin Forerunner 165.",
+    "Studio watch face Garmin: rancang di browser, bangun .prg, jalankan di jam.",
 };
 
-const themeScript = `(function(){try{var t=localStorage.getItem("watchcraft-theme");document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light")}catch(e){document.documentElement.setAttribute("data-theme","light")}})();`;
+// Pilihan tersimpan menang. Tanpa pilihan, ikut tema sistem.
+const themeScript = `(function(){var d=document.documentElement;try{var t=localStorage.getItem("watchcraft-theme");if(t!=="dark"&&t!=="light"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}d.setAttribute("data-theme",t)}catch(e){d.setAttribute("data-theme","light")}})();`;
 
 export default function RootLayout({
   children,

@@ -116,8 +116,8 @@ export default function DashboardPage() {
             Coba di {device.name}
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-muted">
-            Ubah data simulasi, kanvas langsung ikut. Kartu kanan adalah tangkapan
-            layar asli dari Connect IQ Simulator, bukan mockup.
+            Ubah data simulasi, kanvas langsung ikut. Kartu Native render adalah
+            tangkapan layar asli dari Connect IQ Simulator, bukan mockup.
           </p>
         </div>
         <div className="mt-4 grid gap-4 xl:grid-cols-[1fr_300px]">
@@ -127,21 +127,22 @@ export default function DashboardPage() {
               title="Native render"
               action={<Badge tone="ok">Terverifikasi</Badge>}
             />
-            <div className="flex flex-1 items-center justify-center bg-[#E9EBEE] px-4 py-5">
+            <div className="flex flex-1 items-center justify-center bg-white px-4 py-5">
               <Image
-                src="/native/fr165-quiet.png"
-                alt="Watch face WATCHCRAFT dirender di simulator Connect IQ Forerunner 165"
-                width={440}
-                height={784}
+                src="/native/fr165-chronograph.png"
+                alt="Template Chronograph dirender oleh interpreter native di Connect IQ Simulator Forerunner 165"
+                width={660}
+                height={755}
                 loading="eager"
-                style={{ width: "100%", maxWidth: 240, height: "auto" }}
+                style={{ width: "100%", maxWidth: 250, height: "auto" }}
               />
             </div>
             <div className="border-t border-line p-4">
               <p className="text-[12px] leading-relaxed text-muted">
-                Layout Quiet dijalankan dari file <span className="mono text-ink">.prg</span>{" "}
-                yang sama dengan hasil <span className="mono text-ink">pnpm watchface</span>.
-                Jam 15:25, baterai 62%.
+                Template Chronograph, dibangun dengan{" "}
+                <span className="mono text-ink">pnpm watchface</span> dan digambar oleh
+                interpreter native. Detak 80 BPM dan baterai 50% berasal dari sensor
+                simulator, bukan dari preview web.
               </p>
             </div>
           </Card>

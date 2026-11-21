@@ -4,9 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)
 
-Studio watch face berbasis web, dirender native di Garmin Forerunner 165.
+Studio watch face berbasis web untuk jam Garmin Connect IQ.
 
-Rancang di browser, lihat preview pada device frame 390 x 390 dengan data simulasi, lalu bangun `.prg` dari desain yang sama dan pasang ke jam.
+Rancang di browser, lihat preview live pada device frame asli, lalu tekan **Build ke jam**: desain dikompilasi jadi Monkey C, dibangun jadi `.prg`, dan dimuat ke Connect IQ Simulator.
 
 ![Dashboard WATCHCRAFT](docs/screenshots/dashboard.png)
 
@@ -27,8 +27,12 @@ Alpha. Yang sudah jalan:
 - Simpan otomatis ke localStorage, import dan export JSON
 - Export SVG dan PNG dari display list yang sama dengan renderer native
 - Build `.prg` untuk fr165 lewat SDK 9.3.0
-- Watch face native: waktu, tanggal, busur baterai
-- Tema gelap dan terang
+- Elemen analog: jarum jam, menit, detik, tick menit dan tick jam
+- Mode always-on per elemen, dengan preview di simulator web
+- Simulator live: jam berjalan, detak dan langkah bergerak
+- Interpreter native: semua tipe elemen digambar di jam dengan data sensor asli
+- Build ke jam dari editor (khusus `pnpm dev` lokal), termasuk memuat ke simulator
+- Tema gelap dan terang, default mengikuti sistem
 
 Belum ada:
 
@@ -57,7 +61,8 @@ Buka `http://localhost:4321`.
 | `pnpm typecheck` | TypeScript tanpa emit |
 | `pnpm lint` | Biome check |
 | `pnpm test` | Vitest |
-| `pnpm watchface` | Build `.prg` untuk fr165 |
+| `pnpm watchface` | Build `.prg` dari `watchface/designs/chronograph.json` untuk fr165 |
+| `pnpm watchface -- --design file.json --device fr265` | Build desain lain untuk perangkat lain |
 
 Semua gate harus hijau sebelum commit: `pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm watchface`.
 
@@ -77,7 +82,16 @@ docs/             PRD, schema, design system, keputusan
 
 ## Build watch face
 
-`pnpm watchface` membaca SDK aktif dari `%APPDATA%\Garmin\ConnectIQ\current-sdk.cfg`, memakai developer key di `%USERPROFILE%\.Garmin\ConnectIQ\developer_key.der`, lalu menulis `watchface/bin/watchcraft-fr165.prg`.
+`pnpm watchface` membaca SDK aktif dari `%APPDATA%\Garmin\ConnectIQ\current-sdk.cfg`, memakai developer key di `%USERPROFILE%\.Garmin\ConnectIQ\developer_key.der`, lalu menulis `watchface/bin/watchcraft-<device>.prg`.
+
+Alurnya:
+
+1. `watchface/compile-design.mjs` mengubah design JSON jadi `watchface/source/gen/DesignData.mc` (array angka, lolos typecheck strict).
+2. `WatchCraftView.mc` membaca array itu dan menggambar teks, bentuk, busur, tick, dan jarum dengan data sensor asli. Koordinat 390 x 390 diskalakan ke resolusi layar perangkat.
+3. Teks memakai font TTF sistem lewat `getVectorFont` kalau tersedia, dengan fallback ke font bitmap terdekat.
+4. Saat jam masuk mode always-on, hanya elemen bertanda AOD yang digambar dan jarum detik disembunyikan.
+
+Tombol **Build ke jam** di editor memanggil `POST /api/native`. Route ini menolak request di production dan dari host selain localhost.
 
 Kalau key ada di lokasi lain, set `WATCHCRAFT_DEV_KEY`. Untuk perangkat lain, tambahkan `-- --device <id>`.
 

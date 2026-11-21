@@ -1,8 +1,10 @@
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execFileSync, spawnSync } from "node:child_process";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { designToMonkeyC } from "./compile-design.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const appData = process.env.APPDATA ?? join(homedir(), "AppData", "Roaming");
@@ -34,9 +36,31 @@ function resolveJava() {
   return "java";
 }
 
-const device = process.argv.includes("--device")
-  ? process.argv[process.argv.indexOf("--device") + 1]
-  : "fr165";
+function arg(name, fallback) {
+  const index = process.argv.indexOf(name);
+  return index >= 0 && process.argv[index + 1] ? process.argv[index + 1] : fallback;
+}
+
+const device = arg("--device", "fr165");
+if (!/^[a-z0-9]+$/.test(device)) fail(`Nama perangkat tidak valid: "${device}"`);
+
+const designPath = resolve(arg("--design", join(root, "designs", "chronograph.json")));
+if (!existsSync(designPath)) fail(`Design JSON tidak ditemukan: ${designPath}`);
+
+let design;
+try {
+  design = JSON.parse(readFileSync(designPath, "utf8"));
+} catch (error) {
+  fail(`Design JSON tidak bisa dibaca: ${error.message}`);
+}
+
+const genDir = join(root, "source", "gen");
+mkdirSync(genDir, { recursive: true });
+try {
+  writeFileSync(join(genDir, "DesignData.mc"), designToMonkeyC(design));
+} catch (error) {
+  fail(error.message);
+}
 
 const sdk = readSdk();
 const jar = join(sdk, "bin", "monkeybrains.jar");
@@ -57,6 +81,7 @@ const output = join(outDir, `watchcraft-${device}.prg`);
 
 console.log(`[watchface] SDK      : ${sdk}`);
 console.log(`[watchface] Perangkat: ${device}`);
+console.log(`[watchface] Desain   : ${design.name} (${designPath})`);
 console.log(`[watchface] Output   : ${output}`);
 
 execFileSync(process.execPath, [join(root, "make-icon.mjs")], { stdio: "inherit" });

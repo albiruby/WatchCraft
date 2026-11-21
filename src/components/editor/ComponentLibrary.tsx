@@ -7,6 +7,7 @@ import {
   textElementSchema,
   type DesignElement,
 } from "@/core/schema";
+import { makeHands, makeHourTicks, makeMinuteTicks } from "@/core/factory";
 import { useEditor } from "@/stores/editor";
 
 function uid(kind: string): string {
@@ -33,6 +34,7 @@ const GROUPS: Array<{ title: string; items: Item[] }> = [
             size: 64,
             family: "digits",
             weight: "bold",
+            aod: true,
           }),
       },
       {
@@ -329,6 +331,14 @@ const GROUPS: Array<{ title: string; items: Item[] }> = [
             color: "#98A2B3",
           }),
       },
+    ],
+  },
+  {
+    title: "Analog",
+    items: [
+      { key: "hands", label: "Jarum", hint: "Jam, menit, detik", make: makeHands },
+      { key: "ticks-min", label: "Tick menit", hint: "60 garis, besar tiap 5", make: makeMinuteTicks },
+      { key: "ticks-hour", label: "Tick jam", hint: "12 penanda jam", make: makeHourTicks },
     ],
   },
   {

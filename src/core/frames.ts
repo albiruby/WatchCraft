@@ -1,5 +1,5 @@
 export type FrameSpec = {
-  id: "fr165" | "fr265" | "fr255sm";
+  id: "fr165" | "fr265" | "fr255s";
   label: string;
   width: number;
   height: number;
@@ -21,12 +21,12 @@ export const FRAMES: Record<FrameSpec["id"], FrameSpec> = {
     height: 742,
     hole: { left: 80, top: 188, size: 440 },
   },
-  fr255sm: {
-    id: "fr255sm",
-    label: "Forerunner 255s Music",
-    width: 364,
-    height: 483,
-    hole: { left: 76, top: 132, size: 218 },
+  fr255s: {
+    id: "fr255s",
+    label: "Forerunner 255s",
+    width: 409,
+    height: 576,
+    hole: { left: 76, top: 150, size: 271 },
   },
 };
 

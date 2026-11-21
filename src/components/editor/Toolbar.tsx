@@ -8,6 +8,7 @@ import { Badge, Button } from "@/components/ui";
 import { SIMULATED_DATA } from "@/core/data";
 import { buildStandaloneSvg } from "@/core/svg";
 import { useCanRedo, useCanUndo, useEditor } from "@/stores/editor";
+import { NativeBuild } from "./NativeBuild";
 
 function slug(name: string): string {
   const base = name
@@ -167,11 +168,11 @@ export function Toolbar({
           <Download size={14} />
           PNG
         </Button>
-        <Button variant="primary" size="sm" onClick={exportSvg}>
+        <Button variant="secondary" size="sm" onClick={exportSvg} className="hidden md:inline-flex">
           <Download size={14} />
-          <span className="hidden sm:inline">Export SVG</span>
-          <span className="sm:hidden">SVG</span>
+          SVG
         </Button>
+        <NativeBuild />
       </div>
     </header>
   );

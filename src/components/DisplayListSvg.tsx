@@ -45,6 +45,20 @@ function CommandView({ command }: { command: DisplayCommand }) {
     );
   }
 
+  if (command.kind === "line") {
+    return (
+      <line
+        x1={command.x1}
+        y1={command.y1}
+        x2={command.x2}
+        y2={command.y2}
+        stroke={command.color}
+        strokeWidth={command.width}
+        strokeLinecap="round"
+      />
+    );
+  }
+
   return (
     <text
       x={command.x}
@@ -69,13 +83,15 @@ export function DisplayListSvg({
   data,
   className,
   label,
+  aod = false,
 }: {
   design: Design;
   data: MetricData;
   className?: string;
   label?: string;
+  aod?: boolean;
 }) {
-  const list = buildDisplayList(design, data);
+  const list = buildDisplayList(design, data, { aod });
 
   return (
     <svg

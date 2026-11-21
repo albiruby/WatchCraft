@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { createBlankDesign } from "@/core/templates";
 import { cn } from "@/lib/cn";
 import { createId, saveDesign } from "@/lib/storage";
+import { LiveClock, SecondsRule } from "./SecondsRule";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/Button";
 import { Plus } from "./icons";
@@ -65,7 +66,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 border-b border-line bg-page">
+      <header className="sticky top-0 z-40 bg-page">
         <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" aria-label="WATCHCRAFT, ke halaman designs">
             <span className="grid size-8 place-items-center rounded-md border border-line bg-raised">
@@ -86,6 +87,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <LiveClock className="hidden pr-1 lg:block" />
             <ThemeToggle />
             <Button variant="primary" size="sm" onClick={handleNewDesign}>
               <Plus size={15} />
@@ -95,7 +97,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <div className="border-t border-line md:hidden">
+        <SecondsRule />
+
+        <div className="border-b border-line md:hidden">
           <nav
             className="scroll-slim mx-auto flex max-w-6xl overflow-x-auto px-2"
             aria-label="Navigasi utama"
@@ -111,8 +115,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t border-line">
         <div className="mono mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-[10px] text-faint sm:px-6">
-          <span>WATCHCRAFT / Forerunner 165</span>
-          <span>Data lokal</span>
+          <span>WATCHCRAFT / Connect IQ SDK 9.3</span>
+          <span>Desain tersimpan lokal di browser ini</span>
         </div>
       </footer>
     </div>

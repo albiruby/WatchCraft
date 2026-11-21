@@ -2,6 +2,9 @@ import type { ArcElement, TextElement } from "./schema";
 
 export type MetricData = {
   time: string;
+  hour: number;
+  minute: number;
+  second: number;
   date: string;
   battery: number;
   steps: number;
@@ -25,6 +28,9 @@ export type MetricData = {
 
 export const SIMULATED_DATA: MetricData = {
   time: "10:09",
+  hour: 10,
+  minute: 9,
+  second: 30,
   date: "WED 11",
   battery: 78,
   steps: 6420,

@@ -8,7 +8,7 @@ Studio profesional, bukan landing page. Tenang, presisi, lapang. Chrome terang m
 
 ## Warna
 
-Token didefinisikan sebagai CSS variable, lalu dipetakan ke Tailwind lewat `@theme inline`. Default terang, gelap lewat `[data-theme="dark"]`.
+Token didefinisikan sebagai CSS variable, lalu dipetakan ke Tailwind lewat `@theme inline`. Tanpa pilihan tersimpan, tema mengikuti `prefers-color-scheme`. Gelap lewat `[data-theme="dark"]`.
 
 | Token | Gelap | Terang | Pemakaian |
 | --- | --- | --- | --- |
@@ -86,7 +86,12 @@ Tinggi 36 px, kecil 32 px. Fokus memakai outline aksen 2 px.
 
 - Hover dan fokus: 120 sampai 160 ms.
 - Panel dan seleksi: 160 sampai 240 ms.
+- Yang bergerak hanya yang berjalan di jam nyata: jarum detik dan data live di simulator, skala detik di header. Semuanya lompat per detik, bukan animasi.
 - Tidak ada animasi masuk, parallax, atau reveal saat scroll.
+
+## Motif
+
+`SecondsRule`: skala 60 tick di bawah header, tick oranye menandai detik sekarang. Ini satu-satunya ornamen di chrome, dan ia punya fungsi yang sama dengan jarum detik.
 - `prefers-reduced-motion` mematikan transisi.
 
 ## Device frame

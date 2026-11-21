@@ -428,7 +428,162 @@ export function Inspector() {
           </Section>
         ) : null}
 
+        {element.type === "ticks" ? (
+          <Section title="Tick">
+            <NumberField
+              label="Jumlah"
+              value={element.count}
+              min={4}
+              max={120}
+              onChange={(value) => update(element.id, { count: Math.round(value) })}
+            />
+            <NumberField
+              label="Besar tiap"
+              value={element.majorEvery}
+              min={1}
+              max={30}
+              onChange={(value) => update(element.id, { majorEvery: Math.round(value) })}
+            />
+            <NumberField
+              label="Panjang"
+              value={element.length}
+              min={1}
+              max={80}
+              suffix="px"
+              onChange={(value) => update(element.id, { length: value })}
+            />
+            <NumberField
+              label="Panjang besar"
+              value={element.majorLength}
+              min={1}
+              max={80}
+              suffix="px"
+              onChange={(value) => update(element.id, { majorLength: value })}
+            />
+            <NumberField
+              label="Tebal"
+              value={element.width}
+              min={1}
+              max={12}
+              suffix="px"
+              onChange={(value) => update(element.id, { width: value })}
+            />
+            <NumberField
+              label="Tebal besar"
+              value={element.majorWidth}
+              min={1}
+              max={16}
+              suffix="px"
+              onChange={(value) => update(element.id, { majorWidth: value })}
+            />
+            <ColorField
+              label="Warna"
+              value={element.color}
+              onChange={(value) => update(element.id, { color: value })}
+            />
+            <ColorField
+              label="Warna besar"
+              value={element.majorColor}
+              onChange={(value) => update(element.id, { majorColor: value })}
+            />
+          </Section>
+        ) : null}
+
+        {element.type === "hands" ? (
+          <Section title="Jarum">
+            <NumberField
+              label="Jam, panjang"
+              value={element.hourLength}
+              min={10}
+              max={100}
+              suffix="%"
+              onChange={(value) => update(element.id, { hourLength: value })}
+            />
+            <NumberField
+              label="Jam, tebal"
+              value={element.hourWidth}
+              min={1}
+              max={24}
+              suffix="px"
+              onChange={(value) => update(element.id, { hourWidth: value })}
+            />
+            <ColorField
+              label="Jam, warna"
+              value={element.hourColor}
+              onChange={(value) => update(element.id, { hourColor: value })}
+            />
+            <NumberField
+              label="Menit, panjang"
+              value={element.minuteLength}
+              min={10}
+              max={100}
+              suffix="%"
+              onChange={(value) => update(element.id, { minuteLength: value })}
+            />
+            <NumberField
+              label="Menit, tebal"
+              value={element.minuteWidth}
+              min={1}
+              max={24}
+              suffix="px"
+              onChange={(value) => update(element.id, { minuteWidth: value })}
+            />
+            <ColorField
+              label="Menit, warna"
+              value={element.minuteColor}
+              onChange={(value) => update(element.id, { minuteColor: value })}
+            />
+            <NumberField
+              label="Detik, panjang"
+              value={element.secondLength}
+              min={10}
+              max={100}
+              suffix="%"
+              onChange={(value) => update(element.id, { secondLength: value })}
+            />
+            <NumberField
+              label="Detik, tebal"
+              value={element.secondWidth}
+              min={0}
+              max={8}
+              suffix="px"
+              onChange={(value) => update(element.id, { secondWidth: value })}
+            />
+            <ColorField
+              label="Detik, warna"
+              value={element.secondColor}
+              onChange={(value) => update(element.id, { secondColor: value })}
+            />
+            <NumberField
+              label="Poros"
+              value={element.hub}
+              min={0}
+              max={24}
+              suffix="px"
+              onChange={(value) => update(element.id, { hub: value })}
+            />
+            <ColorField
+              label="Poros, warna"
+              value={element.hubColor}
+              onChange={(value) => update(element.id, { hubColor: value })}
+            />
+            <p className="pt-1 text-[10px] leading-relaxed text-faint">
+              Tebal detik 0 mematikan jarum detik. Di mode always-on jarum detik
+              selalu disembunyikan.
+            </p>
+          </Section>
+        ) : null}
+
         <Section title="Status">
+          <SegmentedField
+            label="Always-on"
+            value={element.aod ? "on" : "off"}
+            options={[
+              { value: "off", label: "Sembunyi" },
+              { value: "on", label: "Tampil" },
+            ]}
+            onChange={(value) => update(element.id, { aod: value === "on" })}
+          />
           <SegmentedField
             label="Visibilitas"
             value={element.visible ? "show" : "hide"}

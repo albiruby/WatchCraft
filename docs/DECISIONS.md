@@ -39,11 +39,16 @@ Versi baru memakai satu aplikasi, satu schema, satu renderer, dan satu folder na
 
 **Simulator di dashboard hanya mengekspos kontrol yang benar-benar mengubah render.** Jam 12/24, bahasa, baterai, langkah, detak, dan sleep mode. Menu simulator lain seperti sensor, audio, dan BLE tidak ditampilkan karena tidak memengaruhi watch face.
 
-**Native menerima layout dari sumber yang sama.** Fase ini memakai konstanta di `watchface/source/WatchCraftView.mc` yang mencerminkan template "Quiet". Fase berikutnya membaca design JSON lewat properties atau `makeWebRequest`, setelah spike membuktikannya.
+**Native menerima layout dari sumber yang sama.** Design JSON dikompilasi saat build menjadi array angka di `watchface/source/gen/DesignData.mc`, lalu `WatchCraftView.mc` menginterpretasikannya. Alasannya: parsing JSON di jam mahal memori, dan array angka lolos typecheck strict. Konsekuensinya, ganti desain berarti build ulang `.prg`. Sinkronisasi tanpa install ulang tetap menunggu spike properties atau `makeWebRequest`.
+
+**Elemen analog dan always-on.** Jarum dan tick masuk schema karena bisa digambar native dengan `drawLine` dan `fillCircle` tanpa kompromi. Flag `aod` per elemen menentukan apa yang tetap tampil saat jam tidur. Jarum detik selalu disembunyikan di mode itu karena layar hanya update tiap menit.
+
+**Build dari browser hanya di dev lokal.** `POST /api/native` menjalankan Java dan simulator di mesin ini. Route menolak production dan host selain localhost, memvalidasi desain dengan schema, dan memvalidasi nama perangkat terhadap katalog.
 
 ## Batasan yang disengaja
 
 - Tidak ada rotasi, opacity, gradient, image, atau blur di schema. Semuanya belum tentu bisa dirender native dengan hasil setara.
+- Tracking huruf dan bobot medium tidak punya padanan native. Teks native memakai Roboto regular atau condensed bold.
 - Tidak ada drag bebas di luar kanvas. Posisi elemen dibatasi -200 sampai 600, dan kanvas 390 x 390.
 - Tidak ada akun, cloud sync, atau publikasi template di versi ini.
 - Tidak ada animasi dekoratif. Motion hanya untuk umpan balik 120 sampai 240 ms.

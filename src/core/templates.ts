@@ -386,7 +386,83 @@ const fieldSplit = build({
   ],
 });
 
-export const TEMPLATES: Template[] = [
+const chronograph = build({
+  version: 1,
+  id: "tpl-chronograph",
+  name: "Chronograph",
+  updatedAt: STAMP,
+  elements: [
+    { id: "e-min-ticks", type: "ticks", x: 8, y: 8, w: 374, h: 374, count: 60, majorEvery: 5, length: 7, majorLength: 7, width: 2, majorWidth: 2, color: "#2A3140", majorColor: "#2A3140" },
+    { id: "e-hour-ticks", type: "ticks", x: 8, y: 8, w: 374, h: 374, count: 12, majorEvery: 3, length: 20, majorLength: 34, width: 5, majorWidth: 9, color: "#C9CED6", majorColor: "#F2F5F9", aod: true },
+    { id: "e-sub-track", type: "arc", x: 150, y: 248, w: 90, h: 90, width: 4, track: "#1A2029", color: "#FF7A1A", metric: "battery", startAngle: 135, sweep: 270, cap: "butt" },
+    { id: "e-sub-value", type: "text", x: 195, y: 293, metric: "battery", size: 15, weight: "bold" },
+    { id: "e-date-box", type: "shape", x: 262, y: 179, w: 62, h: 32, radius: 4, fill: "#000000", stroke: "#3A4250", strokeWidth: 1 },
+    { id: "e-date", type: "text", x: 293, y: 195, metric: "date", size: 12, weight: "bold", color: "#F2F5F9", aod: true },
+    { id: "e-hr", type: "text", x: 98, y: 195, metric: "heartRate", size: 13, color: "#98A2B3" },
+    { id: "e-hands", type: "hands", x: 20, y: 20, w: 350, h: 350, hourLength: 54, minuteLength: 86, secondLength: 94, hourWidth: 10, minuteWidth: 6, secondWidth: 2, aod: true },
+  ],
+});
+
+const redline = build({
+  version: 1,
+  id: "tpl-redline",
+  name: "Redline",
+  updatedAt: STAMP,
+  elements: [
+    { id: "e-steps-arc", type: "arc", x: 6, y: 6, w: 378, h: 378, width: 10, track: "#141922", color: "#FF7A1A", metric: "steps", max: 10000, startAngle: 135, sweep: 270, cap: "butt" },
+    { id: "e-ticks", type: "ticks", x: 26, y: 26, w: 338, h: 338, count: 60, majorEvery: 5, length: 6, majorLength: 22, width: 2, majorWidth: 6, color: "#3A4250", majorColor: "#FF7A1A", aod: true },
+    { id: "e-steps", type: "text", x: 195, y: 268, metric: "steps", size: 22, family: "digits", weight: "bold" },
+    { id: "e-steps-label", type: "text", x: 195, y: 292, metric: "label", text: "STEPS / 10K", size: 10, tracking: 2, color: "#7C8698" },
+    { id: "e-time", type: "text", x: 195, y: 124, metric: "time", size: 26, family: "digits", weight: "bold", color: "#7C8698" },
+    { id: "e-hands", type: "hands", x: 30, y: 30, w: 330, h: 330, hourLength: 50, minuteLength: 88, secondLength: 96, hourWidth: 12, minuteWidth: 7, secondWidth: 3, hourColor: "#F2F5F9", minuteColor: "#F2F5F9", secondColor: "#FF7A1A", hub: 9, hubColor: "#F2F5F9", aod: true },
+  ],
+});
+
+const nightwatch = build({
+  version: 1,
+  id: "tpl-nightwatch",
+  name: "Nightwatch",
+  updatedAt: STAMP,
+  elements: [
+    { id: "e-ticks", type: "ticks", x: 30, y: 30, w: 330, h: 330, count: 12, majorEvery: 3, length: 6, majorLength: 16, width: 3, majorWidth: 3, color: "#4A5363", majorColor: "#FF7A1A", aod: true },
+    { id: "e-date", type: "text", x: 195, y: 262, metric: "date", size: 12, tracking: 2, color: "#7C8698" },
+    { id: "e-hands", type: "hands", x: 50, y: 50, w: 290, h: 290, hourLength: 56, minuteLength: 90, secondLength: 90, hourWidth: 4, minuteWidth: 3, secondWidth: 0, hourColor: "#C9CED6", minuteColor: "#F2F5F9", hub: 4, hubColor: "#FF7A1A", aod: true },
+  ],
+});
+
+// Elemen waktu dan tanggal tetap terlihat di mode always-on kalau template tidak mengatur sendiri.
+function withAodDefaults(design: Design): Design {
+  if (design.elements.some((el) => el.aod)) return design;
+  return {
+    ...design,
+    elements: design.elements.map((el) =>
+      el.type === "text" && (el.metric === "time" || el.metric === "date") ? { ...el, aod: true } : el
+    ),
+  };
+}
+
+const BASE_TEMPLATES: Template[] = [
+  {
+    id: "tpl-chronograph",
+    name: "Chronograph",
+    description: "Analog penuh: tick menit, penanda jam tebal, jendela tanggal, sub-dial baterai.",
+    tags: ["analog", "klasik", "aod"],
+    design: chronograph,
+  },
+  {
+    id: "tpl-redline",
+    name: "Redline",
+    description: "Analog sport: busur langkah menuju 10K mengelilingi tick oranye dan jarum tebal.",
+    tags: ["analog", "sport", "langkah"],
+    design: redline,
+  },
+  {
+    id: "tpl-nightwatch",
+    name: "Nightwatch",
+    description: "Jarum tipis tanpa detik, 12 penanda. Dibuat untuk layar always-on yang hemat.",
+    tags: ["analog", "minimal", "aod"],
+    design: nightwatch,
+  },
   {
     id: "tpl-mono-field",
     name: "Mono Field",
@@ -494,6 +570,11 @@ export const TEMPLATES: Template[] = [
   },
 ];
 
+export const TEMPLATES: Template[] = BASE_TEMPLATES.map((template) => ({
+  ...template,
+  design: withAodDefaults(template.design),
+}));
+
 export function getTemplate(id: string): Template | undefined {
   return TEMPLATES.find((tpl) => tpl.id === id);
 }
@@ -518,7 +599,7 @@ export function createBlankDesign(
             { id: "e-timer", type: "text", x: 270, y: 290, metric: "timer", size: 22 },
           ]
         : [
-            { id: "e-time", type: "text", x: 195, y: 195, metric: "time", size: 64, family: "digits", weight: "bold" },
+            { id: "e-time", type: "text", x: 195, y: 195, metric: "time", size: 64, family: "digits", weight: "bold", aod: true },
           ],
   });
 }

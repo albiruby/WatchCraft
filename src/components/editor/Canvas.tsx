@@ -431,7 +431,7 @@ export function Canvas({
                       width={bounds.w}
                       height={bounds.h}
                       fill={
-                        selected && element.type !== "arc"
+                        selected && (element.type === "text" || element.type === "shape")
                           ? "rgba(255,122,26,0.08)"
                           : "transparent"
                       }
@@ -442,14 +442,39 @@ export function Canvas({
                       style={{ pointerEvents: "none" }}
                     />
 
-                    {element.type === "arc" ? (
+                    {/* Busur dan tick hanya bisa diklik di cincinnya, jarum hanya di porosnya,
+                        supaya elemen di dalam dial tetap bisa dipilih. */}
+                    {element.type === "hands" ? (
                       <circle
                         cx={bounds.x + bounds.w / 2}
                         cy={bounds.y + bounds.h / 2}
-                        r={Math.min(bounds.w, bounds.h) / 2 - element.width / 2}
+                        r={Math.max(element.hub, 8) + 14}
+                        fill="rgba(0,0,0,0.001)"
+                        style={{
+                          pointerEvents: "all",
+                          cursor: element.locked ? "default" : "move",
+                        }}
+                        onPointerDown={(event) => startDrag(event, element)}
+                        onContextMenu={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          if (!selectedIds.includes(element.id)) select(element.id);
+                          setMenu({ x: event.clientX, y: event.clientY, id: element.id });
+                        }}
+                      />
+                    ) : element.type === "arc" || element.type === "ticks" ? (
+                      <circle
+                        cx={bounds.x + bounds.w / 2}
+                        cy={bounds.y + bounds.h / 2}
+                        r={
+                          Math.min(bounds.w, bounds.h) / 2 -
+                          (element.type === "arc" ? element.width : element.majorLength) / 2
+                        }
                         fill="none"
                         stroke="rgba(0,0,0,0.001)"
-                        strokeWidth={element.width + 16}
+                        strokeWidth={
+                          (element.type === "arc" ? element.width : element.majorLength) + 16
+                        }
                         style={{
                           pointerEvents: "stroke",
                           cursor: element.locked ? "default" : "move",

@@ -9,6 +9,7 @@ import {
   textElementSchema,
   type DesignElement,
 } from "@/core/schema";
+import { makeHands, makeHourTicks, makeMinuteTicks } from "@/core/factory";
 import { cn } from "@/lib/cn";
 import { useEditor } from "@/stores/editor";
 
@@ -99,7 +100,7 @@ export function CommandPalette({ onClose }: { onClose: () => void }) {
   const hasSelection = state.selectedIds.length > 0;
 
   const commands: Command[] = [
-    { id: "add-time", label: "Tambah waktu", hint: "Metrik", run: () => state.add(makeText("time", { size: 64, family: "digits", weight: "bold" })) },
+    { id: "add-time", label: "Tambah waktu", hint: "Metrik", run: () => state.add(makeText("time", { size: 64, family: "digits", weight: "bold", aod: true })) },
     { id: "add-date", label: "Tambah tanggal", hint: "Metrik", run: () => state.add(makeText("date", { y: 250, size: 15, color: "#98A2B3" })) },
     { id: "add-battery", label: "Tambah baterai", hint: "Metrik", run: () => state.add(makeText("battery", { y: 118, size: 18 })) },
     { id: "add-steps", label: "Tambah langkah", hint: "Metrik", run: () => state.add(makeText("steps", { y: 290, size: 20 })) },
@@ -123,6 +124,9 @@ export function CommandPalette({ onClose }: { onClose: () => void }) {
     { id: "add-rect", label: "Tambah kotak", hint: "Bentuk", run: () => state.add(makeShape("rect")) },
     { id: "add-circle", label: "Tambah lingkaran", hint: "Bentuk", run: () => state.add(makeShape("circle")) },
     { id: "add-arc", label: "Tambah busur", hint: "Bentuk", run: () => state.add(makeArc()) },
+    { id: "add-hands", label: "Tambah jarum analog", hint: "Analog", run: () => state.add(makeHands()) },
+    { id: "add-ticks-min", label: "Tambah tick menit", hint: "Analog", run: () => state.add(makeMinuteTicks()) },
+    { id: "add-ticks-hour", label: "Tambah tick jam", hint: "Analog", run: () => state.add(makeHourTicks()) },
     { id: "undo", label: "Undo", hint: "Riwayat", run: state.undo },
     { id: "redo", label: "Redo", hint: "Riwayat", run: state.redo },
     { id: "duplicate", label: "Duplikat pilihan", hint: "Edit", run: state.duplicateSelected },

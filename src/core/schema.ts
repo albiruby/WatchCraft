@@ -12,6 +12,8 @@ const elementBase = {
   y: z.number().min(-200).max(600),
   visible: z.boolean().default(true),
   locked: z.boolean().default(false),
+  // Tetap tampil saat jam masuk mode always-on (layar redup).
+  aod: z.boolean().default(false),
 };
 
 export const TEXT_METRICS = [
@@ -78,10 +80,45 @@ export const arcElementSchema = z.object({
   cap: z.enum(["butt", "round"]).default("round"),
 });
 
+export const ticksElementSchema = z.object({
+  ...elementBase,
+  type: z.literal("ticks"),
+  w: z.number().min(20).max(CANVAS_SIZE),
+  h: z.number().min(20).max(CANVAS_SIZE),
+  count: z.number().int().min(4).max(120).default(60),
+  majorEvery: z.number().int().min(1).max(30).default(5),
+  length: z.number().min(1).max(80).default(8),
+  majorLength: z.number().min(1).max(80).default(18),
+  width: z.number().min(1).max(12).default(2),
+  majorWidth: z.number().min(1).max(16).default(4),
+  color: hexColor.default("#3A4250"),
+  majorColor: hexColor.default("#F2F5F9"),
+});
+
+export const handsElementSchema = z.object({
+  ...elementBase,
+  type: z.literal("hands"),
+  w: z.number().min(20).max(CANVAS_SIZE),
+  h: z.number().min(20).max(CANVAS_SIZE),
+  hourLength: z.number().min(10).max(100).default(52),
+  minuteLength: z.number().min(10).max(100).default(84),
+  secondLength: z.number().min(10).max(100).default(92),
+  hourWidth: z.number().min(1).max(24).default(9),
+  minuteWidth: z.number().min(1).max(24).default(6),
+  secondWidth: z.number().min(0).max(8).default(2),
+  hourColor: hexColor.default("#F2F5F9"),
+  minuteColor: hexColor.default("#F2F5F9"),
+  secondColor: hexColor.default("#FF7A1A"),
+  hub: z.number().min(0).max(24).default(7),
+  hubColor: hexColor.default("#FF7A1A"),
+});
+
 export const elementSchema = z.discriminatedUnion("type", [
   textElementSchema,
   shapeElementSchema,
   arcElementSchema,
+  ticksElementSchema,
+  handsElementSchema,
 ]);
 
 export const designSchema = z.object({
@@ -100,6 +137,8 @@ export type DesignElement = z.infer<typeof elementSchema>;
 export type TextElement = z.infer<typeof textElementSchema>;
 export type ShapeElement = z.infer<typeof shapeElementSchema>;
 export type ArcElement = z.infer<typeof arcElementSchema>;
+export type TicksElement = z.infer<typeof ticksElementSchema>;
+export type HandsElement = z.infer<typeof handsElementSchema>;
 
 export function parseDesign(input: unknown): Design {
   return designSchema.parse(input);
@@ -150,5 +189,7 @@ export function elementTitle(el: DesignElement): string {
   if (el.type === "arc") {
     return { battery: "Battery arc", steps: "Steps arc", heartRate: "Heart rate arc" }[el.metric];
   }
+  if (el.type === "ticks") return el.count === 12 ? "Hour ticks" : "Minute ticks";
+  if (el.type === "hands") return "Analog hands";
   return el.shape === "circle" ? "Circle" : "Rectangle";
 }

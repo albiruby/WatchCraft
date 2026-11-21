@@ -10,12 +10,16 @@ import { TEMPLATES } from "@/core/templates";
 
 export default function TemplatesPage() {
   const [query, setQuery] = useState("");
-  const [kind, setKind] = useState<"all" | "watchface" | "datafield">("all");
+  const [kind, setKind] = useState<"all" | "analog" | "watchface" | "datafield">("all");
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
     const base =
-      kind === "all" ? TEMPLATES : TEMPLATES.filter((template) => template.design.kind === kind);
+      kind === "all"
+        ? TEMPLATES
+        : kind === "analog"
+          ? TEMPLATES.filter((template) => template.tags.includes("analog"))
+          : TEMPLATES.filter((template) => template.design.kind === kind);
     if (!needle) return base;
     return base.filter((template) =>
       [template.name, template.description, ...template.tags]
@@ -51,6 +55,7 @@ export default function TemplatesPage() {
         {(
           [
             ["all", "Semua"],
+            ["analog", "Analog"],
             ["watchface", "Watch face"],
             ["datafield", "Data field"],
           ] as const

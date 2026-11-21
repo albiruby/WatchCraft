@@ -8,6 +8,8 @@ export type SimulationSettings = {
   heartRate: number;
   activityTracking: boolean;
   sleepMode: boolean;
+  // Jam berjalan mengikuti waktu perangkat, detak dan langkah bergerak pelan.
+  live: boolean;
   calories: number;
   distance: number;
   notifications: number;
@@ -26,6 +28,7 @@ export const DEFAULT_SIMULATION: SimulationSettings = {
   heartRate: 62,
   activityTracking: true,
   sleepMode: false,
+  live: true,
   calories: 1480,
   distance: 7.42,
   notifications: 3,
@@ -48,16 +51,57 @@ const SIMULATED_DAY = 3;
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
 
-export function buildSimulationData(settings: SimulationSettings): MetricData {
+export type SimulationClock = {
+  hour: number;
+  minute: number;
+  second: number;
+  weekday: number;
+  day: number;
+};
+
+const FIXED_CLOCK: SimulationClock = {
+  hour: BASE_HOUR,
+  minute: BASE_MINUTE,
+  second: 30,
+  weekday: SIMULATED_DAY,
+  day: 11,
+};
+
+export function clockFromDate(date: Date): SimulationClock {
+  return {
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    second: date.getSeconds(),
+    weekday: date.getDay(),
+    day: date.getDate(),
+  };
+}
+
+// Variasi halus untuk mode live. Deterministik: detik yang sama, nilai yang sama.
+export function liveDrift(settings: SimulationSettings, elapsedSeconds: number) {
+  const t = Math.max(0, elapsedSeconds);
+  return {
+    heartRate: Math.round(settings.heartRate + Math.sin(t / 7) * 4 + Math.sin(t / 2.3) * 1.5),
+    steps: settings.steps + Math.floor(t * 1.6),
+  };
+}
+
+export function buildSimulationData(
+  settings: SimulationSettings,
+  clock: SimulationClock = FIXED_CLOCK
+): MetricData {
   const hour = settings.hour24
-    ? `${BASE_HOUR}`
-    : `${BASE_HOUR % 12 === 0 ? 12 : BASE_HOUR % 12}`;
-  const minute = String(BASE_MINUTE).padStart(2, "0");
-  const weekday = WEEKDAYS[settings.language][SIMULATED_DAY];
+    ? `${clock.hour}`
+    : `${clock.hour % 12 === 0 ? 12 : clock.hour % 12}`;
+  const minute = String(clock.minute).padStart(2, "0");
+  const weekday = WEEKDAYS[settings.language][clock.weekday];
 
   return {
     time: `${hour}:${minute}`,
-    date: `${weekday} 11`,
+    hour: clock.hour,
+    minute: clock.minute,
+    second: clock.second,
+    date: `${weekday} ${clock.day}`,
     battery: clamp(settings.battery, 0, 100),
     steps: settings.activityTracking ? Math.max(0, settings.steps) : 0,
     heartRate: clamp(settings.heartRate, 30, 220),
