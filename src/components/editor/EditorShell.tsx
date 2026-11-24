@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Check, Grid, X } from "@/components/icons";
 import { Badge } from "@/components/ui";
 import { designSchema, elementTitle } from "@/core/schema";
+import { useNow } from "@/lib/clock";
 import { cn } from "@/lib/cn";
 import { saveDesign } from "@/lib/storage";
 import { useEditor } from "@/stores/editor";
@@ -17,6 +18,38 @@ import { Inspector } from "./Inspector";
 import { LayersPanel } from "./LayersPanel";
 import { Toolbar } from "./Toolbar";
 
+function ToolToggle({
+  label,
+  title,
+  pressed,
+  onToggle,
+  children,
+}: {
+  label: string;
+  title: string;
+  pressed: boolean;
+  onToggle: () => void;
+  children?: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={pressed}
+      title={title}
+      className={cn(
+        "flex h-7 items-center gap-1.5 rounded border px-2.5 text-[11px] font-medium transition-colors",
+        pressed
+          ? "border-accent/50 bg-accent/10 text-ink"
+          : "border-line bg-raised text-muted hover:text-ink"
+      )}
+    >
+      {children}
+      {label}
+    </button>
+  );
+}
+
 export function EditorShell() {
   const design = useEditor((state) => state.design);
   const selectedId = useEditor((state) => state.selectedId);
@@ -24,6 +57,10 @@ export function EditorShell() {
 
   const [zoom, setZoom] = useState(0.9);
   const [showGrid, setShowGrid] = useState(true);
+  // Live: jarum dan angka berjalan dengan jam perangkat. AOD: hanya elemen always-on.
+  const [live, setLive] = useState(false);
+  const [aod, setAod] = useState(false);
+  const now = useNow(live);
   const [snap, setSnap] = useState(1);
   const [saved, setSaved] = useState(false);
   const [blocked, setBlocked] = useState(false);
@@ -177,21 +214,32 @@ export function EditorShell() {
             </div>
 
             <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setShowGrid((value) => !value)}
-                aria-pressed={showGrid}
+              <ToolToggle
+                label="Live"
+                title="Jalankan jam: jarum dan angka mengikuti waktu perangkat"
+                pressed={live}
+                onToggle={() => setLive((value) => !value)}
+              >
+                <span
+                  aria-hidden="true"
+                  className={cn("size-1.5 rounded-full", live ? "bg-accent" : "bg-faint")}
+                />
+              </ToolToggle>
+              <ToolToggle
+                label="AOD"
+                title="Pratinjau mode always-on: hanya elemen bertanda AOD"
+                pressed={aod}
+                onToggle={() => setAod((value) => !value)}
+              />
+              <span className="h-4 w-px bg-line" />
+              <ToolToggle
+                label="Grid"
                 title="Tampilkan grid"
-                className={cn(
-                  "flex h-6 items-center gap-1.5 rounded border px-2 text-[10px] font-medium transition-colors",
-                  showGrid
-                    ? "border-accent/50 bg-accent/10 text-ink"
-                    : "border-line bg-raised text-muted hover:text-ink"
-                )}
+                pressed={showGrid}
+                onToggle={() => setShowGrid((value) => !value)}
               >
                 <Grid size={12} />
-                Grid
-              </button>
+              </ToolToggle>
               <label className="flex items-center gap-1.5 text-[10px] text-muted">
                 Snap
                 <select
@@ -206,11 +254,12 @@ export function EditorShell() {
                   <option value={10}>10 px</option>
                 </select>
               </label>
-              <Badge tone="accent">Data simulasi</Badge>            </div>
+              <Badge tone="accent">Data simulasi</Badge>
+            </div>
           </div>
 
           <div className="scroll-slim flex min-h-0 flex-1 items-center justify-center overflow-auto bg-page p-6">
-            <Canvas zoom={zoom} showGrid={showGrid} snap={snap} />
+            <Canvas zoom={zoom} showGrid={showGrid} snap={snap} live={live} aod={aod} />
           </div>
 
           <footer className="flex h-8 shrink-0 items-center justify-between gap-3 border-t border-line px-3">
@@ -222,6 +271,11 @@ export function EditorShell() {
                   ? elementTitle(selected)
                   : "tanpa pilihan"}
             </span>
+            {now ? (
+              <span className="mono text-[11px] text-accent">{now.toLocaleTimeString("en-GB")}</span>
+            ) : aod ? (
+              <span className="mono text-[9px] uppercase tracking-[0.12em] text-faint">Always-on</span>
+            ) : null}
             <span
               className={cn(
                 "mono flex items-center gap-1 text-[9px] uppercase tracking-[0.12em]",

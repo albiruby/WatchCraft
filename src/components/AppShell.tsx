@@ -67,7 +67,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-40 bg-page">
-        <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" aria-label="WATCHCRAFT, ke halaman designs">
             <span className="grid size-8 place-items-center rounded-md border border-line bg-raised">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -101,7 +101,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         <div className="border-b border-line md:hidden">
           <nav
-            className="scroll-slim mx-auto flex max-w-6xl overflow-x-auto px-2"
+            className="scroll-slim mx-auto flex max-w-7xl overflow-x-auto px-2"
             aria-label="Navigasi utama"
           >
             <NavLinks vertical />
@@ -109,12 +109,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6">
         {children}
       </main>
 
       <footer className="border-t border-line">
-        <div className="mono mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-[10px] text-faint sm:px-6">
+        <div className="mono mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-[10px] text-faint sm:px-6">
           <span>WATCHCRAFT / Connect IQ SDK 9.3</span>
           <span>Desain tersimpan lokal di browser ini</span>
         </div>

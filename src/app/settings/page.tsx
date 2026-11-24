@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Check, Moon, Sun } from "@/components/icons";
 import { Badge, Button, Card, CardHeader } from "@/components/ui";
-import { FR165 } from "@/core/devices";
+import { Readout } from "@/components/Readout";
+import { DEFAULT_DEVICE_ID, DEVICES, apiVersion, getDevice } from "@/core/device-list";
+import { readDevicePref, writeDevicePref } from "@/lib/clock";
 import { cn } from "@/lib/cn";
 import { clearDesigns } from "@/lib/storage";
 
@@ -18,32 +20,45 @@ const SHORTCUTS: Array<[string, string]> = [
   ["Esc", "Batalkan pilihan"],
 ];
 
-const SPECS: Array<[string, string]> = [
-  ["Perangkat", FR165.name],
-  ["Kode produk", FR165.code],
-  ["Layar", FR165.screen],
-  ["API level", FR165.api],
-  ["Memori watch face", `${Math.round(FR165.watchFaceMemory / 1024)} KB`],
-];
+type ThemeChoice = "system" | "dark" | "light";
+
+function systemTheme(): "dark" | "light" {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
 
 export default function SettingsPage() {
-  const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<ThemeChoice>("system");
   const [note, setNote] = useState<string | null>(null);
+  const [deviceId, setDeviceId] = useState(DEFAULT_DEVICE_ID);
 
   useEffect(() => {
-    const current = document.documentElement.getAttribute("data-theme");
-    setTheme(current === "light" ? "light" : "dark");
+    try {
+      const stored = window.localStorage.getItem("watchcraft-theme");
+      setTheme(stored === "dark" || stored === "light" ? stored : "system");
+    } catch {
+      setTheme("system");
+    }
+    const saved = readDevicePref(DEFAULT_DEVICE_ID);
+    if (DEVICES.some((device) => device.id === saved)) setDeviceId(saved);
   }, []);
 
-  function applyTheme(next: "dark" | "light") {
+  function applyTheme(next: ThemeChoice) {
     setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
+    document.documentElement.setAttribute("data-theme", next === "system" ? systemTheme() : next);
     try {
-      window.localStorage.setItem("watchcraft-theme", next);
+      if (next === "system") window.localStorage.removeItem("watchcraft-theme");
+      else window.localStorage.setItem("watchcraft-theme", next);
     } catch {
       // Preferensi hanya berlaku untuk sesi ini.
     }
   }
+
+  function chooseDevice(id: string) {
+    setDeviceId(id);
+    writeDevicePref(id);
+  }
+
+  const device = getDevice(deviceId);
 
   function handleClear() {
     const confirmed = window.confirm(
@@ -57,7 +72,12 @@ export default function SettingsPage() {
   return (
     <AppShell>
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Pengaturan studio</h1>
+        <h1
+          className="font-display font-semibold leading-[0.9] tracking-[-0.035em]"
+          style={{ fontSize: "clamp(48px, 8vw, 104px)" }}
+        >
+          Pengaturan
+        </h1>
       </div>
 
       {note ? (
@@ -71,12 +91,13 @@ export default function SettingsPage() {
           <CardHeader title="Tampilan" meta="Tema" />
           <div className="p-4">
             <p className="text-[13px] leading-relaxed text-muted">
-              Mode gelap jadi default karena kanvas jam selalu terang. Mode terang
-              tetap tersedia dan memakai token kontras yang sama.
+              Tanpa pilihan, tema mengikuti sistem. Kanvas jam selalu hitam di dua tema
+              karena itu warna layar AMOLED.
             </p>
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className="mt-4 grid grid-cols-3 gap-2">
               {(
                 [
+                  ["system", "Sistem", Check],
                   ["dark", "Gelap", Moon],
                   ["light", "Terang", Sun],
                 ] as const
@@ -105,15 +126,29 @@ export default function SettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Perangkat target" meta="FR165" action={<Badge tone="accent">Aktif</Badge>} />
-          <dl className="divide-y divide-line">
-            {SPECS.map(([label, value]) => (
-              <div key={label} className="flex items-baseline justify-between gap-4 px-4 py-2.5">
-                <dt className="text-[13px] text-muted">{label}</dt>
-                <dd className="mono text-[12px] text-ink">{value}</dd>
-              </div>
-            ))}
-          </dl>
+          <CardHeader title="Perangkat target" meta={device.id} action={<Badge tone="accent">Aktif</Badge>} />
+          <div className="p-4">
+            <label className="block">
+              <span className="text-[12px] text-muted">Dipakai di dashboard dan Build ke jam</span>
+              <select
+                value={deviceId}
+                onChange={(event) => chooseDevice(event.target.value)}
+                className="mt-1.5 h-9 w-full rounded-md border border-line bg-raised px-2 text-[13px] text-ink"
+              >
+                {DEVICES.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name} / {item.width} x {item.height}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4">
+              <Readout size="sm" label="Layar" value={`${device.width} x ${device.height}`} unit={device.display} />
+              <Readout size="sm" label="API" value={apiVersion(device)} />
+              <Readout size="sm" label="Memori watch face" value={Math.round(device.watchFaceMemory / 1024)} unit="KB" />
+              <Readout size="sm" label="Keluarga" value={device.family} />
+            </dl>
+          </div>
         </Card>
 
         <Card>
@@ -147,7 +182,7 @@ export default function SettingsPage() {
             <CardHeader title="Tentang" meta="v0.1.0" />
             <div className="space-y-2 p-4 text-[13px] leading-relaxed text-muted">
               <p>
-                WATCHCRAFT adalah studio watch face untuk Garmin Forerunner 165.
+                WATCHCRAFT adalah studio watch face untuk jam Garmin Connect IQ.
                 Preview web memakai data simulasi dengan label yang selalu terlihat.
               </p>
               <p className="mono text-[10px] uppercase tracking-[0.14em] text-faint">

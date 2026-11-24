@@ -9,6 +9,7 @@ import { SIMULATED_DATA } from "@/core/data";
 import { elementBounds, type Bounds } from "@/core/renderer";
 import type { DesignElement } from "@/core/schema";
 import { cn } from "@/lib/cn";
+import { useLiveData } from "@/lib/useLiveData";
 import { useEditor } from "@/stores/editor";
 
 const GRID_STEPS = Array.from({ length: 12 }, (_, i) => (i + 1) * 30);
@@ -153,13 +154,18 @@ function findSnap(  edges: number[],
 export function Canvas({
   zoom,
   showGrid,
+  live = false,
+  aod = false,
   snap,
 }: {
   zoom: number;
   showGrid: boolean;
+  live?: boolean;
+  aod?: boolean;
   snap: number;
 }) {
   const design = useEditor((state) => state.design);
+  const liveData = useLiveData(live);
   const selectedId = useEditor((state) => state.selectedId);
   const selectedIds = useEditor((state) => state.selectedIds);
   const select = useEditor((state) => state.select);
@@ -364,7 +370,7 @@ export function Canvas({
         <div style={{ transform: `scale(${zoom})`, transformOrigin: "top left" }}>
           <DeviceFrame>
             <div className="absolute inset-0">
-              <DisplayListSvg design={design} data={SIMULATED_DATA} />
+              <DisplayListSvg design={design} data={liveData} aod={aod} />
             </div>
 
             <svg

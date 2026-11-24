@@ -14,15 +14,17 @@ Presisi, tenang, sedikit nakal di satu titik: jarum detik oranye.
 
 ## Dial
 
-`Dial: ENERGY 2 / RHYTHM 2 / MOTION 2`
+`Dial: ENERGY 3 / RHYTHM 3 / MOTION 2`
 
-- ENERGY 2: chrome tenang, satu aksen oranye, jam di tengah selalu jadi fokus.
-- RHYTHM 2: halaman konsisten, dengan dua jeda yang disengaja (simulator besar di dashboard, editor tiga panel).
-- MOTION 2: yang bergerak hanya yang memang berjalan di jam nyata: jarum detik, skala detik di header, data live simulator. Tanpa animasi masuk atau scroll reveal.
+- ENERGY 3: kokpit instrumen. Setiap halaman punya satu pembacaan raksasa (waktu, nama template, judul halaman) dan satu jam hidup sebagai fokus.
+- RHYTHM 3: komposisi berbeda per halaman. Dashboard: pembacaan kiri, perangkat kanan, panel kontrol lebar, rail dial. Templates: spotlight lalu katalog dial. Library: angka nyata dan desain terakhir di dial.
+- MOTION 2: yang bergerak hanya yang memang berjalan di jam nyata: jarum, detik, data live. Semua berdetak dari satu jam global (`src/lib/clock.ts`). Tanpa animasi masuk atau scroll reveal.
 
 ## Motif identitas
 
-Skala 60 tick dengan satu tick oranye untuk detik sekarang (`SecondsRule`). Motif yang sama muncul di bezel template analog, di header aplikasi, dan di jarum detik native.
+Skala 60 tick dengan satu tick oranye untuk detik sekarang. Bentuk lurusnya `SecondsRule` di header, bentuk melingkarnya `BezelDial` di sekeliling setiap pratinjau jam. Motif yang sama muncul di bezel template analog dan jarum detik native.
+
+Angka dibaca seperti instrumen lewat `Readout`: label kecil, garis tick di atas, angka tabular Red Hat Display.
 
 ## Palet
 

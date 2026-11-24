@@ -1,4 +1,4 @@
-import { SIMULATED_DATA } from "@/core/data";
+import { SIMULATED_DATA, type MetricData } from "@/core/data";
 import type { Design } from "@/core/schema";
 import { cn } from "@/lib/cn";
 import { DisplayListSvg } from "./DisplayListSvg";
@@ -7,10 +7,12 @@ export function WatchFaceThumbnail({
   design,
   className,
   label,
+  data = SIMULATED_DATA,
 }: {
   design: Design;
   className?: string;
   label?: string;
+  data?: MetricData;
 }) {
   return (
     <div
@@ -19,7 +21,7 @@ export function WatchFaceThumbnail({
         className
       )}
     >
-      <DisplayListSvg design={design} data={SIMULATED_DATA} label={label} />
+      <DisplayListSvg design={design} data={data} label={label} />
     </div>
   );
 }
